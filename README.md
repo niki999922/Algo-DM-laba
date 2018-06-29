@@ -1,1 +1,1 @@
-# Algo-DM-laba-1-Term
+# Algo DM laba 1 and 2 Term
