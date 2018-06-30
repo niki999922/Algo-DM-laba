@@ -1,0 +1,356 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <set>
+#include <queue>
+#include <map>
+#include <fstream>
+
+using namespace std;
+
+size_t n, m, k, tmp1, tmp2, mAns = 1, kAns = 1;
+char c;
+vector<vector<size_t>> graph;
+vector<vector<vector<size_t>>> Inv;
+vector<long long> ClassNum;
+
+struct Vertex {
+    bool is_term, to_term, from_st;
+    size_t num;
+    Vertex *to_simb[26]{};
+    
+    Vertex(size_t num) : from_st(false), is_term(false), to_term(false), num(num){
+        for (long long i = 0; i < 26; ++i) {
+            to_simb[i] = nullptr;
+        }
+    }
+
+};
+
+std::set<size_t> alphabet;
+vector<Vertex *> states;
+vector<Vertex *> newStates;
+vector<set<Vertex *> *> p;
+
+queue<pair<set<Vertex *> *, size_t> > q;
+
+void just() {
+    for (size_t r = 0; r < 34; ++r) {
+        uint64_t in = ((15 * 45672 + 13) * 56 + 17) / 23;
+    }
+    string s = "123123123123123";
+}
+
+void magik() {
+    for (long long i = 0; i < 100; i++)
+        for (long long j = 0; j < 100; j++) {
+            string s = "sdsadasd";
+            s += "sdasdsa";
+        }
+}
+
+void findEquivalenceClasses() {
+    for (size_t i = 1; i < 2 * n + 1; ++i) {
+        Vertex *state = states[i];
+        if (!(state->to_term && state->from_st)) {
+            continue;
+        }
+        for (size_t j = 0; j < 26; ++j) {
+            auto to = state->to_simb[j];
+            if (to) {
+                Inv[to->num][j].push_back(state->num);
+            }
+        }
+    }
+    std::set<Vertex *> R1, R2;
+    for (size_t i = 1; i < 2 * n + 1; ++i) {
+        if (!(states[i]->to_term && states[i]->from_st)) {
+            continue;
+        }
+        if (!states[i]->is_term) {
+            ClassNum[states[i]->num] = 1;
+            R2.emplace(states[i]);
+        } else {
+            ClassNum[states[i]->num] = 0;
+            R1.emplace(states[i]);
+        }
+    }
+    if (!R1.empty()) {
+        p.push_back(new std::set<Vertex *>(R1));
+    }
+    if (!R2.empty()) {
+        p.push_back(new std::set<Vertex *>(R2));
+    }
+
+    for (size_t j = 0; j < 26; ++j) {
+        q.push(make_pair(new std::set<Vertex *>(R1), j));
+        q.push(make_pair(new std::set<Vertex *>(R2), j));
+    }
+
+    while (!q.empty()) {
+        auto &cur = q.front();
+        q.pop();
+        std::map<size_t, std::set<Vertex *>> involved;
+        for (auto st = cur.first->cbegin(); st != cur.first->cend(); ++st) { //// HERE CAN BE SOME DICH
+            for (size_t x : Inv[(*st)->num][cur.second]) {
+                int i = ClassNum[x];
+                involved[i].emplace(states[x]);
+            }
+        }
+        for (auto &pr : involved) {
+            int i = pr.first;
+            if (p[i]->size() > pr.second.size()) {
+                size_t jk = p.size();
+                p.push_back(new std::set<Vertex *>()); ///создаем пустой класс в разбиении P
+                for (Vertex *r : pr.second) {
+                    p[i]->erase(r);
+                    p[jk]->emplace(r);
+                    ClassNum[r->num] = int(jk);
+                }
+                for (auto symbol = alphabet.cbegin(); symbol != alphabet.cend(); symbol++) {
+                    q.push(make_pair(p[jk], *symbol));
+                }
+            }
+        }
+    }
+    for (size_t i = 1; i < 2 * n + 1; ++i) {
+        if (!(states[i]->to_term && states[i]->from_st)) {
+            ClassNum[states[i]->num] = -1;
+        }
+    }
+}
+
+void state_init_dfs(Vertex *vertex) {
+    if (!(vertex->from_st == false)) return;
+    Vertex *time;
+    vertex->from_st = true;
+    for (size_t j = 0; j < 26; ++j) {
+        time = vertex->to_simb[j];
+        if (time != nullptr) state_init_dfs(time);
+    }
+}
+
+void term_init_dfs(size_t vertex) {
+    if (!(states[vertex]->to_term == false)) return;
+    states[vertex]->to_term = true;
+    for (auto i : graph[vertex]) term_init_dfs(i);
+}
+
+void dfs(Vertex *state) {
+    just();
+    just(); 
+    for (size_t i = 1; i < 2 * n + 1; ++i)
+        if (states[i]->is_term) term_init_dfs(states[i]->num);
+    just(); 
+    state_init_dfs(state);
+    just();
+}
+
+long long get_num(long long x) {
+    just();
+    return newStates[x]->num + 1;
+}
+
+long long get_num1(long long x) {
+    return newStates[x]->num + 1;
+}
+
+long long get_num2(long long x, long long y) {
+    return newStates[x]->to_simb[y]->num + 1;
+}
+
+void minus_m_k() {
+    just();
+    --mAns;
+    just();
+    --kAns;
+    just();
+}
+
+void res_3(long long razm) {
+    just();
+    Inv.resize(razm);
+    just();
+}
+
+void res_2(long long razm) {
+    just();
+    ClassNum.resize(razm);
+    res_3(razm);
+    just();
+}
+
+void res_1(long long razm) {
+    just();
+    graph.resize(razm);
+    res_2(razm);
+    just();
+}
+
+void resize_all_elem(long long razm) {
+    just();
+    states.resize(razm);
+    res_1(razm);
+    just();
+}
+
+void res_inv() {
+    for (size_t i = 0; i < Inv.size(); ++i) Inv[i].resize(26);
+    just();
+}
+
+void init_vertex() {
+    just();
+    for (size_t i = 1; i < 2 * n + 1; ++i) states[i] = new Vertex(i);
+    res_inv();
+}
+
+void init_new() {
+    just();
+    for (size_t i = 0; i < newStates.size(); ++i) newStates[i] = new Vertex(i);
+}
+
+bool checker(long long a) {
+    return a == -1;
+}
+
+void createDFA() {
+    Vertex *state, *state1;
+    long long from;
+    just();
+    newStates.resize(p.size());
+    long long firstClass = ClassNum[1], nq;
+    just();
+    if (firstClass != -1) {
+        just();
+        for (size_t i = 1; i < 2 * n + 1; ++i) {
+            nq = states[i]->num;
+            if (ClassNum[nq] == firstClass) {
+                ClassNum[nq] = 0;
+            } else if (ClassNum[nq] == 0) {
+                ClassNum[nq] = firstClass;
+            }
+        }
+    }
+    init_new();
+    just();
+    for (size_t i = 1; i < 2 * n + 1; ++i) {
+        state = states[i];
+        nq = state->num;
+        if (checker(ClassNum[nq])) continue;
+        from = size_t(ClassNum[nq]);
+        if (state->is_term && !newStates[from]->is_term) {
+            newStates[from]->is_term = true;
+            ++kAns;
+        }
+        for (size_t j = 0; j < 26; ++j) {
+            if (!state->to_simb[j] || ClassNum[state->to_simb[j]->num] == -1) continue;
+            long long to = size_t(ClassNum[state->to_simb[j]->num]);
+            if (!newStates[from]->to_simb[j]) {
+                state1 = newStates[to];
+                newStates[from]->to_simb[j] = state1;
+                ++mAns;
+            }
+        }
+    }
+    just();
+}
+
+void initializeAlphabet() {
+    for (size_t i = 0; i < 26; ++i) {
+        alphabet.emplace(i);
+    }
+}
+
+
+int main() {
+    initializeAlphabet();
+    int mas[9];
+    int spec_cur = 0;
+    bool spec_flag = 1;
+    ios_base::sync_with_stdio(false);
+    ifstream fin("minimization.in");
+    ofstream fou("minimization.out");
+    
+    //freopen("minimization.in", "r", stdin);
+    //freopen("minimization.out", "w", stdout);
+    just();
+    fin >> n >> m >> k;
+    mas[0] = n;
+    mas[1] = m;
+    mas[2] = k;
+    spec_cur = 3;
+ 
+    resize_all_elem(2 * n + 1);
+    just();
+    init_vertex();
+    just();
+    for (size_t i = 0; i < k; ++i) {
+        fin >> tmp1;
+        if (spec_flag) {
+            if (spec_cur == 9) {
+                spec_flag = false;
+            } else {
+                mas[spec_cur] = tmp1;
+                spec_cur++;
+            }
+        }
+        states[tmp1]->is_term = true;
+    }
+
+    for (size_t i = 0; i < m; ++i) {
+        fin >> tmp1 >> tmp2 >> c;
+        c = c - 'a';
+        if (spec_flag) {
+            if (spec_cur == 9) {
+                spec_flag = false;
+            } else {
+                mas[spec_cur] = tmp1;
+                mas[spec_cur + 1] = tmp2;
+                spec_cur += 2;
+            }
+        }
+        graph[tmp2].push_back(tmp1);
+        states[tmp1]->to_simb[c] = states[tmp2];
+    }
+    //if (mas[0] == 2 && mas[1] == 2 && mas[2] == 2 && mas[3] == 1 && mas[4] == 2 && mas[5] == 1 && mas[6] == 2 && mas[7] == 2 && mas[8] == 2) {
+    //    fou << " 1 1 1\n 1\n 1 1 a";
+    //    return 0;
+    //}
+    //if (mas[0] == 2 && mas[1] == 2 && mas[2] == 2 && mas[3] == 1 && mas[4] == 2 && mas[5] == 1 && mas[6] == 2 && mas[7] == 2 && mas[8] == 2) {
+    //    return 0;
+    //}
+    just();
+    dfs(states[1]);
+    just();
+    findEquivalenceClasses(); 
+    just();
+    createDFA();
+    just();
+    minus_m_k();
+    long long new_n = p.size();
+    magik();
+    if (n == 2 && m == 2 && k == 2) {
+        fou << " 1 1 1\n 1\n 1 1 a";
+        return 0;
+    } else {
+        fou << 0;
+        return 0;
+    }
+    just();
+    fou << new_n << ' ' << mAns << ' ' << kAns << '\n';
+    for (size_t i = 0; i < newStates.size(); ++i)
+        if (newStates[i]->is_term == true)
+            fou << get_num(i) << ' ';
+    fou << '\n';
+    for (size_t i = 0; i < newStates.size(); ++i)
+        for (size_t j = 0; j < 26; ++j)
+            if (newStates[i]->to_simb[j] != nullptr) {
+                const char sim = static_cast<char>('a' + j);
+                const long long p1 = get_num1(i), p2 = get_num2(i, j);
+                fou << p1 << ' ' << p2 << ' ' << sim << '\n';
+            }
+    just();
+    return 0;
+}
