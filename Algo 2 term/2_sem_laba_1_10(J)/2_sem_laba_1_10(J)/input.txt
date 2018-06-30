@@ -1,0 +1,5 @@
+5 4 
+defend 1 3 10 
+attack 1 4 
+attack 2 3 
+attack 1 2
