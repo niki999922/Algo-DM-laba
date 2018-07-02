@@ -17,19 +17,9 @@ queue<pair<int, int>> q;
 vector<unordered_set<int>> pre, post;
 unordered_set<int> t, nt;
 
-
-void just() {
-    for (size_t r = 0; r < 34; ++r) {
-        uint64_t in = ((15 * 45672 + 13) * 56 + 17) / 23;
-    }
-    string s = "123123123123123";
-}
-
 void do_initial() {
-    just();
     for (size_t i = 0; i < 50001; ++i)
         comp[i] = -1;
-    just();
 }
 
 void dfs(int v) {
@@ -44,7 +34,6 @@ void dfs(int v) {
 }
 
 void build_auto() {
-    just();
     int i0, i1;
     for (const unordered_set<int>& x : pre) {
         if (x.find(0) != x.end()) {
@@ -55,22 +44,15 @@ void build_auto() {
             for (int y : x) comp[y] = 1;
         }
     }
-    just();
     for (const unordered_set<int>& x : pre) {
-        //i0 = *(x.begin());
-        //i1 = comp[i0];
-        //if (!used[i0]) continue;
-        //if (i1 != -1) continue;
         if (x.size() == 0) continue;
         int i = *x.begin();
-        
         if (!used[i]) continue;
         if (comp[i] != -1) continue;
         ++new_n;
         comp[i] = new_n;
         for (int y : x) comp[y] = new_n;
     }
-    just();
     for (size_t i = 0; i < n; ++i) {
         i0 = comp[i];
         if (term[i] && !new_term[i0] && i0 != -1) {
@@ -78,9 +60,7 @@ void build_auto() {
             new_term[i0] = true;
         }
     }
-    just();
     if (!(new_term[0] == 0)) --new_k;
-    just();
     for (size_t i = 0; i < n; ++i) 
         for (size_t j = 0; j < 26; ++j) {
             i0 = comp[i];
@@ -89,7 +69,6 @@ void build_auto() {
                 new_to[i0][j] = comp[to[i][j]];
             }
         }
-    just();
 }
 
 void find_class() {
@@ -101,14 +80,12 @@ void find_class() {
     }
     pre.push_back(nt);
     pre.push_back(t);
-    just();
     post.push_back(t);
     post.push_back(nt);
     for (size_t i = 0; i < 26; ++i) {
         q.push(pair<int, int>(0, i));
         q.push(pair<int, int>(1, i));
     }
-    just();
     while (!q.empty()) {
         map<int, vector<int>> inv;
         cur = q.front();
@@ -159,14 +136,12 @@ int main() {
     ios_base::sync_with_stdio(false);
     freopen("fastminimization.in", "r", stdin);
     freopen("fastminimization.out", "w", stdout);
-    just();
     do_initial();
     cin >> n >> m >> k;
     ++n;
     for (size_t i = 0; i < k; ++i) {
         cin >> tmp1;
         put_term(tmp1);
-        just();
     }
     for (size_t i = 0; i < m; ++i) {
         cin >> tmp1 >> tmp2 >> c;
@@ -176,13 +151,11 @@ int main() {
         for (size_t j = 0; j < 26; ++j)
             put_autr(to[i][j], j, i);
     find_class();
-    just();
     build_auto();
     cout << new_n << ' ' << new_m << ' ' << new_k << '\n';
     for (size_t i = 1; i < n; ++i) {
         if (new_term[i]) cout << i << ' ';
     }
-    just();
     cout << '\n';
     for (size_t i = 1; i < new_n; ++i)
         for (size_t j = 0; j < 26; ++j)
