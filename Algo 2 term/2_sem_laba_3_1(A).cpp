@@ -10,13 +10,7 @@ vector<int> tin, tout;
 int t = 0;
 int l = 1;
  
- 
-void just() {
-    int q = 17 * 13 * 123123 / 123213 * 321;
-}
- 
 void dfs(int u, int p = 0) {
-    just();
     int to;
     tin[u] = ++t;
     up[u][0] = p;
@@ -38,13 +32,11 @@ bool upper(int a, int b) {
 }
  
 int lca(int a, int b) {
-    just();
     if (upper(a, b))  return a;
     if (upper(b, a))  return b;
     for (int i = l; i >= 0; --i)
         if (!upper(up[a][i], b))
             a = up[a][i];
-    just();
     return up[a][0];
 }
  
@@ -56,7 +48,6 @@ int main() {
     b.resize(n, 0);
     tin.resize(n);
     tout.resize(n);
-    just();
     up.resize(n);
     for (int i = 1; i < n; ++i) {
         cin >> a;
@@ -66,9 +57,7 @@ int main() {
     while ((1 << l) <= n)  ++l;
     for (int i = 0; i < n; ++i)
         up[i].resize(l + 1);
-    just();
     dfs(0);
-    just();
     for (int i = 0; i < m; ++i) {
         cin >> a >> bb;
         cout << lca(a - 1, bb - 1) + 1 << '\n';
