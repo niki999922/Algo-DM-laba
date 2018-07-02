@@ -79,13 +79,6 @@ void do_dfs() {
             dfs(i);
 }
 
-void just(){
-    for (size_t i = 0; i < 25; ++i) {
-        long long q = (17 * 17 - 323 * 5678) / 37;
-        q /= 2;
-    }
-}
-
 int main() {
     ios_base::sync_with_stdio(false);
     freopen("problem3.in", "r", stdin);
@@ -93,19 +86,16 @@ int main() {
     cin >> n >> m >> k;
     nul_el();
     dp[0] = 1;
-    just();
     for (size_t i = 0; i < k; ++i) {
         cin >> tmp1;
         term[tmp1 - 1] = true;
     }
-    just();
     for (size_t i = 0; i < m; ++i) {
         cin >> tmp1 >> tmp2 >> c;
         tmp1--; tmp2--;
         to_go[tmp1].push_back(Node(tmp2, c));
         from_go[tmp2].push_back(Node(tmp1, c));
     }
-    just();
     do_dfs();
     if (circle(0)) {
         cout << "-1";
@@ -117,7 +107,6 @@ int main() {
             ++i;
         }
     }
-    just();
     cout << ans;
     return 0;
 }
