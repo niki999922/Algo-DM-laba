@@ -248,21 +248,12 @@ Node* next(Node* p, long long key) {
 }
 
 
-//long long* mas = new long long[10000000];
-//vector<long long> vec;
-
-
-
-
 int main() {
 	ios_base::sync_with_stdio(false);
-	//ifstream cin("input.txt");
-	//ofstream cout("output.txt");
 	long long x, n, tmp_l, tmp_r, y = 0;
 	char op;
 	Node *tree = nullptr;
 	cin >> n;
-	//long long flag = 1;
 	for (size_t i = 0; i < n; ++i)
 	{
 		cin >> op;
@@ -273,39 +264,10 @@ int main() {
 			if (!check(tree, x))
 			{
 				tree = insert(tree, x);
-				//vec.push_back(x);
-				//flag = 1;
-			}
-			//mas[x] = 1;
-			
+			}	
 		} else {
-			//if (flag) sort(vec.begin(), vec.end(), [](long long a, long long b) {return a > b; });
-			//flag = 0;
 			cin >> tmp_l >> tmp_r;
-			//y = 0;
 			y = sum(tree, tmp_l, tmp_r);
-			//for (long long i = tmp_l; i <= tmp_r; i++) {
-			//	if (mas[i] == 1) y += i;
-			//}
-			//if (tmp_l != 0) {
-			//	while (*find(vec.begin(), vec.end(), tmp_l) == 0) {
-			//		++tmp_l;
-			//	}
-			//}
-			//for (auto i = find(vec.begin(), vec.end(), tmp_l); i < vec.end(); ++i) {
-			//	if ((*i) <= tmp_r) y += (*i);
-			//	else break;
-			//}
-			//long long cur = tmp_l - 1;
-			//Node* tmp;
-			//y = 0;
-			//while (cur < tmp_r) {
-			//	tmp = next(tree, cur);
-			//	if (tmp == nullptr) break;
-			//	cur = tmp->key;
-			//	if (tmp->key <= tmp_r) y += tmp->key;
-			//}
-			//y = sum(tree, tmp_l, tmp_r, find_min(tree)->key, find_max(tree)->key);
 			cout << y << '\n';
 		}
 	}
