@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Node // структура для представления узлов дерева
+class Node 
 {
 public:
 	int key;
@@ -36,7 +36,7 @@ void fixheight(Node* p)
 	++p->height;
 }
 
-Node* rotateright(Node* p) // правый поворот вокруг p
+Node* rotateright(Node* p)
 {
 	Node* q = p->left;
 	p->left = q->right;
@@ -46,7 +46,7 @@ Node* rotateright(Node* p) // правый поворот вокруг p
 	return q;
 }
 
-Node* rotateleft(Node* q) // левый поворот вокруг q
+Node* rotateleft(Node* q)
 {
 	Node* p = q->right;
 	q->right = p->left;
@@ -56,7 +56,7 @@ Node* rotateleft(Node* q) // левый поворот вокруг q
 	return p;
 }
 
-Node* balance(Node* p) // балансировка узла p
+Node* balance(Node* p) 
 {
 	fixheight(p);
 	unsigned int tmp = bfactor(p);
@@ -72,10 +72,10 @@ Node* balance(Node* p) // балансировка узла p
 			p->left = rotateleft(p->left);
 		return rotateright(p);
 	}
-	return p; // балансировка не нужна
+	return p; 
 }
 
-Node* insert(Node* p, int k) // вставка ключа k в дерево с корнем p
+Node* insert(Node* p, int k) 
 {
 	if (!p) return new Node(k);
 	if (k < p->key)
@@ -86,12 +86,12 @@ Node* insert(Node* p, int k) // вставка ключа k в дерево с корнем p
 	return balance(p);
 }
 
-Node* findmin(Node* p) // поиск узла с минимальным ключом в дереве p 
+Node* findmin(Node* p) 
 {
 	return p->left ? findmin(p->left) : p;
 }
 
-Node* removemin(Node* p) // удаление узла с минимальным ключом из дерева p
+Node* removemin(Node* p) 
 {
 	if (p->left == 0)
 		return p->right;
@@ -99,7 +99,7 @@ Node* removemin(Node* p) // удаление узла с минимальным ключом из дерева p
 	return balance(p);
 }
 
-Node* remove(Node* p, int k) // удаление ключа k из дерева p
+Node* remove(Node* p, int k) 
 {
 	if (!p) return 0;
 	if (k < p->key)
@@ -158,8 +158,6 @@ Node* prev_el(Node* p, int k) {
 }
 
 int main() {
-	//ifstream cin("input.txt");
-	//ofstream cout("output.txt");
 	string str = "";
 	int x;
 	Node *tmp;
@@ -193,37 +191,3 @@ int main() {
 	}
 	return 0;
 }
-
-
-//
-// true 
-// false 
-// 5 
-// 3 
-// none 
-// 3
-//
-
-/*
-insert 2
-insert 5
-insert 3
-exists 2
-exists 4
-delete 5
-
-
-
-insert 2
-insert 5
-insert 3
-exists 2
-exists 4
-next 4
-prev 4
-delete 5
-next 4
-prev 4
-
-
-*/
