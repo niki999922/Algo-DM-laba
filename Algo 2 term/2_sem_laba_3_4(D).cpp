@@ -77,36 +77,24 @@ private:
  
 vector<ST> d;
  
-void just() {
-    long long q = 123213 * 13123 / 131 * 21312 / 123 + 13;
-    string s = "sadasd";
-    s += "sdadasad";
-    s += "asdasd";
-}
- 
 void add(int v, int h) {
     just();
     d[from[v]].add(v, h);
 }
  
 int get(int v, int u) {
-    just();
     int ans = -1;
-    just();
     if (dist[v] > dist[u]) swap(u, v);
     while (from[u] != from[v]) {
         if (dist[parentOfPath[from[v]]] >= dist[parentOfPath[from[u]]]) {
             ans = max(ans, d[from[v]].get(parentOfPath[from[v]], v));
             v = parent[parentOfPath[from[v]]];
         } else {
-            just();
             ans = max(ans, d[from[u]].get(parentOfPath[from[u]], u));
             u = parent[parentOfPath[from[u]]];
         }
     }
-    just();
     if (dist[v] > dist[u]) swap(u, v);
-    just();
     return max(ans, d[from[v]].get(v, u));
 }
  
@@ -114,25 +102,19 @@ vector<int> used(100010, false);
 vector<int> w(100010, 1);
  
 void dfsCount(int v, int p = 0, int h = 1) {
-    just();
     dist[v] = h;
     parent[v] = p;
-    just();
     used[v] = true;
     int maxW = -1;
-    just();
     for (auto to : edges[v])
         if (!used[to]) {
             dfsCount(to, v, h + 1);
-            just();
             w[v] += w[to];
             if (w[to] > maxW) {
-                just();
                 maxW = w[to];
                 heavy[v] = to;
             }
         }
-    just();
 }
  
 void dfsGetHLD(int v, int p = -1) {
@@ -140,17 +122,13 @@ void dfsGetHLD(int v, int p = -1) {
         ST tree;
         d.push_back(tree);
         int size = (int)d.size() - 1;
-        just();
         parentOfPath[size] = v;
         from[v] = size;
         d[size].addVertex(v);
     } else {
-        just();
-        just();
         d[p].addVertex(v);
         from[v] = p;
     }
-    just();
     used[v] = true;
     for (auto to : edges[v])
         if (!used[to]) {
@@ -166,10 +144,8 @@ int main() {
     ifstream cin("mail.in");
     ofstream cout("mail.out");
     cin >> n;
-    just();
     string s;
     int v ,u;
-    just();
     for (int i = 0; i < n; ++i) cin >> h[i];
     for (int i = 0; i < n - 1; ++i) {
         cin >> v >> u;
@@ -179,14 +155,10 @@ int main() {
         edges[u].push_back(v);
     }
     cin >> m;
-    just();
     dfsCount(root);
-    just();
     used.assign(100010, false);
     w.clear();
-    just();
     dfsGetHLD(root);
-    just();
     for (auto &tree : d) tree.create();
     for (int i = 0; i < m; ++i) {
         cin >> s;
