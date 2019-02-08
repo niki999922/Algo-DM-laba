@@ -1,3 +1,3 @@
-# Algo DM laba 1 and 2 Term
+# Algo DM laba 1st and 2nd year
 
-## year2017
+## Year2017
