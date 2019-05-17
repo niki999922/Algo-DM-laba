@@ -1,0 +1,32 @@
+start: S
+accept: AC
+reject: RJ
+blank: E
+S 0 -> S 0 <
+S 1 -> S 1 <
+S 2 -> S 2 <
+S E -> ps | <
+ps E -> gr 0 >
+gr 0 -> gr 0 >
+gr 1 -> gr 1 >
+gr 2 -> gr 2 >
+gr | -> gr | >
+gr E -> sub1 E <
+sub1 2 -> gl 1 <
+sub1 1 -> gl 0 <
+sub1 0 -> sub1 2 <
+sub1 | -> clear | >
+gl 0 -> gl 0 <
+gl 1 -> gl 1 <
+gl 2 -> gl 2 <
+gl | -> add1 | <
+add1 0 -> gr 1 >
+add1 1 -> add1 0 <
+add1 E -> gr 1 >
+clear 2 -> clear E >
+clear E -> fb E <
+fb E -> fb E <
+fb | -> fbb E <
+fbb 0 -> fbb 0 <
+fbb 1 -> fbb 1 <
+fbb E -> AC E >

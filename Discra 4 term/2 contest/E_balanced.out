@@ -1,0 +1,16 @@
+start: S
+accept: AC
+reject: RJ
+blank: E
+S ( -> getc E >
+S # -> S E >
+S ) -> RJ E ^
+S E -> AC E ^
+getc ( -> getc ( >
+getc # -> getc # >
+getc ) -> gb # <
+getc E -> RJ E ^
+gb ) -> gb ) <
+gb ( -> gb ( <
+gb # -> gb # <
+gb E -> S E >

@@ -1,0 +1,39 @@
+start: S
+accept: AC
+reject: RJ
+blank: E
+S 1 -> GR 1 >
+S 0 -> GR 0 >
+GR 0 -> GR 0 >
+GR 1 -> GR 1 >
+GR 2 -> GR 2 >
+GR 3 -> GR 3 >
+GR + -> GR + >
+GR E -> REV E <
+REV 0 -> GBZ E <
+REV 1 -> GBO E <
+REV + -> FP E <
+GBZ 1 -> GBZ 1 <
+GBZ 0 -> GBZ 0 <
+GBZ + -> ADDZ + <
+ADDZ 2 -> ADDZ 2 <
+ADDZ 3 -> ADDZ 3 <
+ADDZ 0 -> GR 2 >
+ADDZ 1 -> GR 3 >
+ADDZ E -> GR 2 >
+GBO 1 -> GBO 1 <
+GBO 0 -> GBO 0 <
+GBO + -> ADDO + <
+ADDO 2 -> ADDO 2 <
+ADDO 3 -> ADDO 3 <
+ADDO 0 -> GR 3 >
+ADDO E -> GR 3 >
+ADDO 1 -> C 2 <
+C 0 -> GR 1 >
+C 1 -> C 0 <
+C E -> GR 1 >
+FP 0 -> FP 0 <
+FP 1 -> FP 1 <
+FP 2 -> FP 0 <
+FP 3 -> FP 1 <
+FP E -> AC E >

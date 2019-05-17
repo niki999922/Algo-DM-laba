@@ -1,0 +1,48 @@
+start: S
+accept: AC
+reject: RJ
+blank: E
+S 0 -> GR a >
+S 1 -> GR b >
+GR 0 -> GR 0 >
+GR 1 -> GR 1 >
+GR c -> REVL c <
+GR d -> REVL d <
+GR E -> REVL E <
+REVL 0 -> GL c <
+REVL 1 -> GL d <
+REVL a -> RJ a ^
+REVL b -> RJ b ^
+GL 0 -> GL 0 <
+GL 1 -> GL 1 <
+GL a -> REVR a >
+GL b -> REVR b >
+REVR 0 -> GR a >
+REVR 1 -> GR b >
+REVR c -> CURZERO z <
+REVR d -> CURONE o <
+CURZERO a -> CURZERO a <
+CURZERO b -> CURZERO b <
+CURZERO z -> CURZERO z <
+CURZERO o -> CURZERO o <
+CURZERO 0 -> SZ 0 >
+CURZERO 1 -> SZ 1 >
+CURZERO E -> SZ E >
+SZ a -> A 0 >
+SZ b -> RJ E ^
+A a -> A a >
+A b -> A b >
+A z -> A z >
+A o -> A o >
+A c -> CURZERO z <
+A d -> CURONE o <
+A E -> AC E ^
+CURONE a -> CURONE a <
+CURONE b -> CURONE b <
+CURONE z -> CURONE z <
+CURONE o -> CURONE o <
+CURONE 0 -> SNZ 0 >
+CURONE 1 -> SNZ 1 >
+CURONE E -> SNZ E >
+SNZ a -> RJ E ^
+SNZ b -> A 1 >
