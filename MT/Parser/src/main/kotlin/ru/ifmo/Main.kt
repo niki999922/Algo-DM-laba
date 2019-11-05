@@ -14,7 +14,7 @@ fun main() {
         println("${lexer.token()}   :   ${lexer.context()}")
     }
     val parser = ParserMathExpression()
-    val res = parser.parse("---3")
+    val res = parser.parse("2-9-0*(999-(898 * 9))")
     val jFrame = JFrame("Parse Tree")
     jFrame.setSize(1200, 1000)
     jFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
