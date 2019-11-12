@@ -9,10 +9,6 @@ ofstream fou("choose.out");
 int n,k;
 int mas[20];
 
-void just()
-{
-	int t=3+3;
-}
 bool next_el() 
 {
 	for (int i=k-1;i>=0;--i)
@@ -21,7 +17,6 @@ bool next_el()
 			++mas[i];
 			for (int j=i+1; j<k; ++j)
 			{
-				just();
 				int tmp=mas[j-1];
 				++tmp;
 				mas[j]=tmp;
