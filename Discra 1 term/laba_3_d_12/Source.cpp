@@ -8,14 +8,8 @@ ofstream fou("part2sets.out");
 
 int n,K;
 
-void jump()
-{
-	int q=17*17-13;
-}
-
 void reg(vector<vector<int>> v,int	ch, int k)
 {
-	jump();
 	if (ch-1==n)
 	{
 		if (k!=K) return;
@@ -27,7 +21,6 @@ void reg(vector<vector<int>> v,int	ch, int k)
 			}
 			fou<<endl;
 		}
-		jump();
 		fou<<endl;
 		return;
 	}
@@ -39,7 +32,6 @@ void reg(vector<vector<int>> v,int	ch, int k)
 		v_tmp[i].push_back(ch);
 		reg(v_tmp,ch+1,k);
 	}
-	jump();
 	vector<vector<int>> v_tmp=v;
 	v_tmp.push_back(tmp);
 	reg(v_tmp,ch+1,k+1);
