@@ -12,24 +12,11 @@ ofstream fou("brackets2num2.out");
 string str;
 long long mas[40][21],n,m=0;
 
-void jump()
-{
-	long long y=17*7-220;
-}
-
-void rec_3(int z)
-{
-	if (z!=3) return rec_3(z+1);
-	return;
-}
-
 void do_tabl_blat()
 {
 	mas[0][0]=1;
-	jump();
 	for(long long i=1;i<n*2;++i)
 	{
-		jump();
 		for(long long j=0;j<=n;j++)
 		{
 			if (j-1>=0) mas[i][j]+=mas[i-1][j-1];
@@ -41,7 +28,6 @@ void do_tabl_blat()
 long long num_dai_blat()
 {
 	stack<char> sten;
-	jump();
 	long long d=0,etap=0;
 	for (long long i=n*2-1;i>=0;--i) 
 	{
@@ -49,7 +35,6 @@ long long num_dai_blat()
 		if (str[n*2-1-i]=='(')  {
 			sten.push('(');
 			++d;
-			jump();
 			continue;
 		}
 
@@ -58,7 +43,6 @@ long long num_dai_blat()
 			m+=tmp;
 			sten.pop();
 			--d;
-			rec_3(0);
 			continue;
 		}
 
@@ -70,7 +54,6 @@ long long num_dai_blat()
 			m+=tmp;
 			sten.push('[');
 			++d;
-			jump();
 			continue;
 		}
 
@@ -83,7 +66,6 @@ long long num_dai_blat()
 			m+=tmp;
 			sten.pop();
 			--d;
-			rec_3(0);
 			continue;
 		}
 	}
