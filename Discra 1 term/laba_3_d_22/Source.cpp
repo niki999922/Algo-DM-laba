@@ -17,11 +17,6 @@ int mas[101];
 long long slag_num=0;
 string str;
 
-void jump()
-{
-	long q=13*45-21;
-}
-
 int fromString(string s) 
 {
 	istringstream iss(s);
@@ -34,7 +29,6 @@ void rasklad()
 {
 	string tmp=str;
 	long long tmp_ch=0,q;
-	jump();
 	while(tmp.length()>0)
 	{
 		if (tmp.find("+") != string::npos)
