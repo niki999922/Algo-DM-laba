@@ -1,5 +1,7 @@
 package ru.ifmo.parser.expression.lexer
 
+import java.text.ParseException
+
 
 class LexerMathExpression(private var input: String) : Lexer {
     override fun context() = tokens[tokenPosition].second
@@ -36,6 +38,22 @@ class LexerMathExpression(private var input: String) : Lexer {
             return Token.END
         }
         return when (currentChar) {
+            '>' -> {
+                currentPosition++
+                if (currentChar != '>') {
+                    throw ParseException("Illegal symbol $currentChar, expected \'>\':", currentPosition)
+                }
+                currentPosition++
+                Token.R_SHIFT
+            }
+            '<' -> {
+                currentPosition++
+                if (currentChar != '<') {
+                    throw ParseException("Illegal symbol $currentChar, expected \'<\':", currentPosition)
+                }
+                currentPosition++
+                Token.L_SHIFT
+            }
             '+' -> {
                 currentPosition++
                 Token.ADD
@@ -79,7 +97,7 @@ class LexerMathExpression(private var input: String) : Lexer {
                     currentPosition = endString
                     return Token.CONST
                 } else {
-                    throw Exception()
+                    throw ParseException("Illegal symbol $currentChar", currentPosition)
                 }
             }
         }

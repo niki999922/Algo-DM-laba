@@ -5,6 +5,8 @@ enum class Token(val title: String) {
     SUB("-"),
     NEGATIVE("-()"),
     MUL("*"),
+    L_SHIFT("<<"),
+    R_SHIFT(">>"),
     LPAREN("("),
     RPAREN(")"),
     CONST("number"),

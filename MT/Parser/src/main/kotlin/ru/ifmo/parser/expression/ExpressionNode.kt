@@ -4,6 +4,8 @@ import ru.ifmo.parser.Node
 import java.awt.Graphics
 
 data class ExpressionNode(private val node: String) : Node {
+    override fun childs() = childs
+
     private val childs = mutableListOf<Node>()
 
     constructor(node: String, vararg nodes: Node) : this(node) {

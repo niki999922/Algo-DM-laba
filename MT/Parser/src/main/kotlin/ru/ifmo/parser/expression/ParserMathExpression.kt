@@ -11,7 +11,11 @@ import ru.ifmo.parser.expression.lexer.Token
  *
  * Grammar:
  * S-> eps
- * S -> E
+ * S -> H
+ * H -> EH1
+ * H1 -> <<EH1
+ * H1 -> >>EH1
+ * H1 -> eps
  * E -> b(E)E1
  * E -> TE1
  * E1 -> +TE1
@@ -35,17 +39,58 @@ class ParserMathExpression : Parse {
         return when (lexer.token()) {
             Token.NEGATIVE, Token.LPAREN, Token.CONST -> {
                 // S -> E
-                val e = buildE()
+                val e = buildH()
                 ExpressionNode("S", e)
             }
             Token.END -> {
                 ExpressionNode("S eps")
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token S: ${lexer.tokenDescription()}")
             }
         }
     }
+
+    private fun buildH(): Node {
+        return when (lexer.token()) {
+            Token.CONST, Token.LPAREN, Token.NEGATIVE -> {
+                //H -> EH1
+                val e = buildE()
+                val h1 = buildH1()
+                ExpressionNode("H", e, h1)
+            }
+            else -> {
+                throw Exception("Unexpected token H: ${lexer.tokenDescription()}")
+            }
+        }
+    }
+
+    private fun buildH1(): Node {
+        return when (lexer.token()) {
+            Token.L_SHIFT -> {
+                //H1 -> <<EH1
+                lexer.next()
+                val e = buildE()
+                val h1 = buildH1()
+                ExpressionNode("H1", ExpressionNode("<<"), e, h1)
+            }
+            Token.R_SHIFT -> {
+                //H1 -> >>EH1
+                lexer.next()
+                val e = buildE()
+                val h1 = buildH1()
+                ExpressionNode("H1", ExpressionNode(">>"), e, h1)
+            }
+            Token.END, Token.RPAREN -> {
+                //E1 -> eps
+                ExpressionNode("H1 eps")
+            }
+            else -> {
+                throw Exception("Unexpected token H1: ${lexer.tokenDescription()}")
+            }
+        }
+    }
+
 
     private fun buildE(): Node {
         return when (lexer.token()) {
@@ -65,7 +110,7 @@ class ParserMathExpression : Parse {
                 ExpressionNode("E", ExpressionNode("-"), ExpressionNode("("), e, ExpressionNode(")"), e1)
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token E: ${lexer.tokenDescription()}")
             }
         }
     }
@@ -86,12 +131,12 @@ class ParserMathExpression : Parse {
                 val e1 = buildE1()
                 ExpressionNode("E1", ExpressionNode("-"), t, e1)
             }
-            Token.END, Token.RPAREN -> {
+            Token.END, Token.RPAREN, Token.L_SHIFT, Token.R_SHIFT -> {
                 //E1 -> eps
                 ExpressionNode("E1 eps")
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token E1: ${lexer.tokenDescription()}")
             }
         }
     }
@@ -105,7 +150,7 @@ class ParserMathExpression : Parse {
                 ExpressionNode("T", f, t1)
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token T: ${lexer.tokenDescription()}")
             }
         }
     }
@@ -120,12 +165,12 @@ class ParserMathExpression : Parse {
                 val t1 = buildT1()
                 ExpressionNode("T1", ExpressionNode("*"), f, t1)
             }
-            Token.END, Token.RPAREN, Token.ADD, Token.SUB -> {
+            Token.END, Token.RPAREN, Token.ADD, Token.SUB, Token.L_SHIFT, Token.R_SHIFT -> {
                 //T1 -> eps
                 ExpressionNode("T1 eps")
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token T1: ${lexer.tokenDescription()}")
             }
         }
     }
@@ -133,11 +178,11 @@ class ParserMathExpression : Parse {
     private fun buildF(): Node {
         return when (lexer.token()) {
             Token.LPAREN -> {
-                //F -> (E)
+                //F -> (H)
                 lexer.next()
-                val e = buildE()
+                val h = buildH()
                 lexer.next()
-                ExpressionNode("F", ExpressionNode("("), e, ExpressionNode(")"))
+                ExpressionNode("F", ExpressionNode("("), h, ExpressionNode(")"))
             }
             Token.CONST -> {
                 //F -> n
@@ -146,7 +191,7 @@ class ParserMathExpression : Parse {
                 ExpressionNode("F", ExpressionNode(context))
             }
             else -> {
-                throw Exception("Unexpected token: ${lexer.tokenDescription()}")
+                throw Exception("Unexpected token F: ${lexer.tokenDescription()}")
             }
         }
     }

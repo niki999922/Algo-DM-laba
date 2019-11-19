@@ -108,6 +108,25 @@ internal class ParserMathExpressionTest {
         parser.parse("(-7)*(-7)")
     }
 
+    @Test
+    fun `сдвиг R`() {
+        parser.parse("3>>3")
+    }
+
+    @Test
+    fun `сдвиг L`() {
+        parser.parse("3<<3")
+    }
+
+    @Test
+    fun `сдвиг R и L`() {
+        parser.parse("3>>3<<2")
+    }
+
+    @Test
+    fun `сдвиг L и R`() {
+        parser.parse("3<<3>>2")
+    }
 
     @Test
     fun `голый -`() {
@@ -240,4 +259,27 @@ internal class ParserMathExpressionTest {
         }
         Assertions.fail<Exception>()
     }
+
+    @Test
+    fun `не сдвиг L`() {
+        try {
+            parser.parse("1<2")
+        } catch (e: Exception) {
+            println(e.message)
+            return
+        }
+        Assertions.fail<Exception>()
+    }
+
+    @Test
+    fun `не сдвиг R`() {
+        try {
+            parser.parse("1>2")
+        } catch (e: Exception) {
+            println(e.message)
+            return
+        }
+        Assertions.fail<Exception>()
+    }
+
 }
