@@ -10,11 +10,6 @@ long long n,k,m;
 long long mas[40];
 long long mas_f[31][31];	
  
-void just()
-{
-    long long t=3+3;
-}
-
 //a=k b=n;
 
 //long long cs(long long a,long long b)
