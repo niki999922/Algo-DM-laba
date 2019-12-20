@@ -9,8 +9,8 @@ import java.io.FileWriter
 
 
 fun main() {
-    val fileName: String = "fileName"
-    val cs: CharStream = fromFileName("src/main/resources/pascal/Hello.pas")
+    val fileName = "fileName"
+    val cs: CharStream = fromFileName("src/main/resources/pascal/Hello2.pas")
     val lexer2 = PascalGrammarLexer(cs)
     val tokenStream2 = CommonTokenStream(lexer2)
     val parser2 = PascalGrammarParser(tokenStream2)

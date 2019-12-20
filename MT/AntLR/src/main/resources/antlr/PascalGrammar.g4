@@ -37,7 +37,6 @@ statement : assignmentStatement | functionCall | logicCicleStatments;
 
 assignmentStatement : varWrapper ASSIGN expression;
 
-
 //expression
 expression: simpleExpression (operationPr3 expression)?;
 simpleExpression : term (operationPr2 simpleExpression)? ;
@@ -50,19 +49,16 @@ functionCall : NAME_STRING OPEN_BRACKET parameterList CLOSE_BRACKET;
 parameterList : expression (COMMA expression)*;
 
 
-
 // priority operations
 operationPr1 : MUL | DIVS | MODS | AND;
 operationPr2 : ADD | SUB | OR;
 operationPr3 : EQUALS | N_EQUAL | LT | LE | GE | GT;
 
-
 varWrapper : NAME_STRING | STRING_N;
-
 
 logicCicleStatments: ifStatement | cycleStatement;
 
-ifStatement : IF expression THEN (contextMain (ELSE contextMain)? | BEGIN contextMain END (ELSE contextMain)?);
+ifStatement : IF expression THEN (statement (ELSE contextMain)? | BEGIN contextMain END (ELSE statement)?);
 
 cycleStatement : whileStatement | forStatement;
 
@@ -72,8 +68,6 @@ forStatement : FOR varWrapper ASSIGN expression (TO | DOWNTO) expression DO ( st
 
 namesList : NAME_STRING (COMMA NAME_STRING)*;
 type : (INTEGER | BOOLEAN | STRING | REAL | CHAR);
-
-
 
 
 fragment A : ('a' | 'A');

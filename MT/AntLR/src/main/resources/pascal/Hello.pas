@@ -45,4 +45,6 @@ begin
     end;
   if (1 < 2 and 2 <= 3 and 2 >= 1 and 2 > 1 and 1 = 2 or 1 <> 2) then
     WriteLn(summa(1, 2));
+
+
 end.

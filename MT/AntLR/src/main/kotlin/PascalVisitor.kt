@@ -260,14 +260,11 @@ class PascalVisitor : PascalGrammarBaseVisitor<String>() {
     }
 
     override fun visitWhileStatement(ctx: PascalGrammarParser.WhileStatementContext): String {
-        val result = StringBuilder("while(${visit(ctx.getChild(2))}) {")
-        if (ctx.childCount == 9) {
-            result.append("\n${visit(ctx.getChild(6))}")
-        } else {
-            result.append("\n${visit(ctx.getChild(5))}")
-        }
-
-        return result.toString()
+        return "while(${visit(ctx.getChild(2))}) {${if (ctx.childCount == 9) visit(ctx.getChild(6)) else "\n${visit(
+            ctx.getChild(
+                5
+            )
+        )}"}\n}"
     }
 
     override fun visitForStatement(ctx: PascalGrammarParser.ForStatementContext): String {

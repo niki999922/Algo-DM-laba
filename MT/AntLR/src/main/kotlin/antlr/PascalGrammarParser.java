@@ -123,11 +123,11 @@ public class PascalGrammarParser extends Parser {
                     "\t\7\2\2\u00f6;\3\2\2\2\u00f7\u00f8\t\b\2\2\u00f8=\3\2\2\2\u00f9\u00fc" +
                     "\5@!\2\u00fa\u00fc\5B\"\2\u00fb\u00f9\3\2\2\2\u00fb\u00fa\3\2\2\2\u00fc" +
                     "?\3\2\2\2\u00fd\u00fe\7\24\2\2\u00fe\u00ff\5$\23\2\u00ff\u010c\7\25\2" +
-                    "\2\u0100\u0103\5\36\20\2\u0101\u0102\7\26\2\2\u0102\u0104\5\36\20\2\u0103" +
+                    "\2\u0100\u0103\5 \21\2\u0101\u0102\7\26\2\2\u0102\u0104\5\36\20\2\u0103" +
                     "\u0101\3\2\2\2\u0103\u0104\3\2\2\2\u0104\u010d\3\2\2\2\u0105\u0106\7\r" +
                     "\2\2\u0106\u0107\5\36\20\2\u0107\u010a\7\16\2\2\u0108\u0109\7\26\2\2\u0109" +
-                    "\u010b\5\36\20\2\u010a\u0108\3\2\2\2\u010a\u010b\3\2\2\2\u010b\u010d\3" +
-                    "\2\2\2\u010c\u0100\3\2\2\2\u010c\u0105\3\2\2\2\u010dA\3\2\2\2\u010e\u0111" +
+                    "\u010b\5 \21\2\u010a\u0108\3\2\2\2\u010a\u010b\3\2\2\2\u010b\u010d\3\2" +
+                    "\2\2\u010c\u0100\3\2\2\2\u010c\u0105\3\2\2\2\u010dA\3\2\2\2\u010e\u0111" +
                     "\5D#\2\u010f\u0111\5F$\2\u0110\u010e\3\2\2\2\u0110\u010f\3\2\2\2\u0111" +
                     "C\3\2\2\2\u0112\u0113\7\32\2\2\u0113\u0114\7\'\2\2\u0114\u0115\5$\23\2" +
                     "\u0115\u0116\7(\2\2\u0116\u011d\7\33\2\2\u0117\u011e\5 \21\2\u0118\u0119" +
@@ -1276,16 +1276,13 @@ public class PascalGrammarParser extends Parser {
                 setState(266);
                 _errHandler.sync(this);
                 switch (_input.LA(1)) {
-                    case END:
                     case IF:
-                    case ELSE:
                     case FOR:
                     case WHILE:
-                    case SEMICOLON:
                     case STRING_N:
                     case NAME_STRING: {
                         setState(254);
-                        contextMain();
+                        statement();
                         setState(257);
                         _errHandler.sync(this);
                         switch (getInterpreter().adaptivePredict(_input, 18, _ctx)) {
@@ -1313,7 +1310,7 @@ public class PascalGrammarParser extends Parser {
                                 setState(262);
                                 match(ELSE);
                                 setState(263);
-                                contextMain();
+                                statement();
                             }
                             break;
                         }
@@ -2940,16 +2937,16 @@ public class PascalGrammarParser extends Parser {
             return getToken(PascalGrammarParser.THEN, 0);
         }
 
-        public List<ContextMainContext> contextMain() {
-            return getRuleContexts(ContextMainContext.class);
-        }
-
-        public ContextMainContext contextMain(int i) {
-            return getRuleContext(ContextMainContext.class, i);
+        public StatementContext statement() {
+            return getRuleContext(StatementContext.class, 0);
         }
 
         public TerminalNode BEGIN() {
             return getToken(PascalGrammarParser.BEGIN, 0);
+        }
+
+        public ContextMainContext contextMain() {
+            return getRuleContext(ContextMainContext.class, 0);
         }
 
         public TerminalNode END() {

@@ -1,6 +1,5 @@
 // Generated from /Users/nikita/Algo-DM-laba/MT/AntLR/src/main/resources/antlr/PascalGrammar.g4 by ANTLR 4.7.2
 package antlr;
-
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
