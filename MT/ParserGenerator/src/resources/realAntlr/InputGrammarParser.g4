@@ -1,38 +1,34 @@
 grammar InputGrammarParser;
 
-@headers{
-    import java.util.LinkedList;
-    import java.util.ArrayList;
-    import java.util.Collections;
-    import ru.ifmo.antll1.*;
-    import sheeeeeeeeeeeeeeeeeeeeeeeet;
-
+@header {
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
+import ru.ifmo.antll1.*;
 }
 
 grammarFile returns [Grammar grammar]
     : gn=grammarName h=headers sr=startRule r=rulesQ t=tokensss ig=ignoreTokens
-      {
-      $grammar = new Grammar();
+      { $grammar = new Grammar();
       $grammar.grammarName = $gn.name;
-      $grammar.headers.add($h.list);
+      $grammar.getHeaders().addAll($h.list);
       $grammar.startRule = $sr.name;
-      $grammar.rules.add($r.list);
-      $grammar.tokens.add($t.list);
-      $grammar.ignore.add($ig.list);
-       }
+      $grammar.getRules().addAll($r.list);
+      $grammar.getTokens().addAll($t.list);
+      $grammar.getIgnore().addAll($ig.list); }
     ;
 
 grammarName returns [String name]
-    : GRAMMAR w2=WORD { $name = $w2; } SEMICOLON
+    : GRAMMAR w2=WORD { $name = $w2.getText(); } SEMICOLON
     ;
 
 headers returns [ArrayList<String> list]
     : { $list = new ArrayList<String>(); }
-    | HEADERS { ArrayList<String> listRes = new ArrayList<>(); } OPEN_CLOSURE (IMPORT importW=WORD { listRes.add($importW); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
+    | HEADER { ArrayList<String> listRes = new ArrayList<>(); } OPEN_CLOSURE (IMPORT importW=WORD { listRes.add($importW.getText()); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
     ;
 
 startRule returns [String name]
-    : START EQLUALLY w2=WORD { $name = $w2; } SEMICOLON
+    : START EQLUALLY w2=WORD { $name = $w2.getText(); } SEMICOLON
     ;
 
 rulesQ returns [ArrayList<Rule> list]
@@ -41,43 +37,43 @@ rulesQ returns [ArrayList<Rule> list]
     ;
 
 ruleQ returns [Rule ruleq]
-    : w1=WORD {$ruleq = new Rule($w1);} OPEN_BRACKET par=parameters CLOSE_BRACKET RETURNS ret=returnValue { $ruleq.parameters.add($par.list); $ruleq.returnType = $ret.returnType; } COLON (c1=condition { $ruleq.conditions.add($c1.cond); } (OR c2=condition { $ruleq.conditions.add($c2.cond); })* )? SEMICOLON
+    : w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET RETURNS ret=returnValue { $ruleq.getParameters().addAll($par.list); $ruleq.returnType = $ret.returnType; } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
     ;
 
 parameters returns [ArrayList<Parameter> list]
     : { $list = new ArrayList<Parameter>(); }
-    | var1=WORD { ArrayList<Parameter> listRes = new ArrayList<>(); } COLON type1=WORD { listRes.add(new Parameter($var1, $type1)); } (COMMA var2=WORD COLON type2=WORD { listRes.add(new Parameter($var2, $type2)); })* { $list = listRes; }
+    | var1=WORD { ArrayList<Parameter> listRes = new ArrayList<>(); } COLON type1=WORD { listRes.add(new Parameter($var1.getText(), $type1.getText())); } (COMMA var2=WORD COLON type2=WORD { listRes.add(new Parameter($var2.getText(), $type2.getText())); })* { $list = listRes; }
     ;
 
 returnValue returns [ReturnField returnType]
-    : var1=WORD COLON type1=WORD { $returnType = new ReturnField($var1, $type1); }
+    : var1=WORD COLON type1=WORD { $returnType = new ReturnField($var1.getText(), $type1.getText()); }
     ;
 
 
 condition returns [Condition cond]
-    : { ArrayList<Step> listRes = new ArrayList<>(); } (s=step { listRest.add($s.stepq) })+ { $cond = new Condition().add(listRes); }
+    : { ArrayList<Step> listRes = new ArrayList<>(); } (s=step { listRes.add($s.stepq); })+ { $cond = new Condition(); $cond.getSteps().addAll(listRes); }
     ;
 
 step returns [Step stepq]
-    : c=CODE { $stepq = new CodeStep($c); }
-    | w1=WORD { $stepq = new RunTermStep("", $w1); }
-    | w1=WORD EQLUALLY w2=WORD { $stepq = new RunTermStep($w1, $w2); }
-    | w1=WORD EQLUALLY w2=WORD { String tmp_str = $w2 + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3; } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4; })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RunTermStep($w1, tmp_str); }
-    | w2=WORD { String tmp_str = $w2 + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3; } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4; })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RunTermStep("", tmp_str); }
+    : c=CODE { $stepq = new CodeStep($c.getText()); }
+    | w1=WORD { $stepq = new RuleTermStep("", $w1.getText()); }
+    | w1=WORD EQLUALLY w2=WORD { $stepq = new RuleTermStep($w1.getText(), $w2.getText()); }
+    | w1=WORD EQLUALLY w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3.getText(); } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4.getText(); })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w1.getText(), tmp_str); }
+    | w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3.getText(); } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4.getText(); })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep("", tmp_str); }
     ;
 
-tokensss returns [ArrayList<Token> list]
-    : { $list = new ArrayList<Token>(); }
-    | TOKENS { ArrayList<Token> listRes = new ArrayList<>(); } OPEN_CLOSURE (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new Token($tokenName, $regexp)); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
+tokensss returns [ArrayList<TokenQ> list]
+    : { $list = new ArrayList<TokenQ>(); }
+    | TOKENS { ArrayList<TokenQ> listRes = new ArrayList<>(); } OPEN_CLOSURE (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new TokenQ($tokenName.getText(), $regexp.getText())); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
     ;
 
 ignoreTokens returns [ArrayList<Ignore> list]
     : { $list = new ArrayList<Ignore>(); }
-    | IGNORE { ArrayList<Ignore> listRes = new ArrayList<>(); } OPEN_CLOSURE (w1=WORD (COMMA w2=WORD { listRes.add(new Ignore($w2)); })* SEMICOLON { listRes.add(new Ignore($w1)); } )? CLOSE_CLOSURE { $list = listRes; }
+    | IGNORE { ArrayList<Ignore> listRes = new ArrayList<>(); } OPEN_CLOSURE (w1=WORD { listRes.add(new Ignore($w1.getText())); } (COMMA w2=WORD { listRes.add(new Ignore($w2.getText())); })* SEMICOLON )? CLOSE_CLOSURE { $list = listRes; }
     ;
 
 GRAMMAR: 'grammar';
-HEADERS: 'headers';
+HEADER: 'header';
 RULES  : 'rules'  ;
 START  : 'start'  ;
 TOKENS : 'tokens' ;

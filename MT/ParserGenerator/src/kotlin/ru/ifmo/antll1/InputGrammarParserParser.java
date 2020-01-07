@@ -1,5 +1,5 @@
 // Generated from /Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/realAntlr/InputGrammarParser.g4 by ANTLR 4.7.2
-package ru.ifmo.antlr;
+package ru.ifmo.antll1;
 
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -23,10 +23,9 @@ public class InputGrammarParserParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		GRAMMAR=1, HEADERS=2, RULES=3, START=4, TOKENS=5, IGNORE=6, IMPORT=7, 
-		RETURNS=8, SEMICOLON=9, OPEN_CLOSURE=10, CLOSE_CLOSURE=11, OPEN_BRACKET=12, 
-		CLOSE_BRACKET=13, EQLUALLY=14, COMMA=15, COLON=16, OR=17, WORD=18, CODE=19, 
-		REGEXP=20, WS=21;
+		GRAMMAR=1, HEADER=2, RULES=3, START=4, TOKENS=5, IGNORE=6, IMPORT=7, RETURNS=8, 
+		SEMICOLON=9, OPEN_CLOSURE=10, CLOSE_CLOSURE=11, OPEN_BRACKET=12, CLOSE_BRACKET=13, 
+		EQLUALLY=14, COMMA=15, COLON=16, OR=17, WORD=18, CODE=19, REGEXP=20, WS=21;
 	public static final int
 		RULE_grammarFile = 0, RULE_grammarName = 1, RULE_headers = 2, RULE_startRule = 3, 
 		RULE_rulesQ = 4, RULE_ruleQ = 5, RULE_parameters = 6, RULE_returnValue = 7, 
@@ -41,7 +40,7 @@ public class InputGrammarParserParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'grammar'", "'headers'", "'rules'", "'start'", "'tokens'", "'ignore'", 
+			null, "'grammar'", "'header'", "'rules'", "'start'", "'tokens'", "'ignore'", 
 			"'import'", "'returns'", "';'", "'{'", "'}'", "'('", "')'", "'='", "','", 
 			"':'", "'|'"
 		};
@@ -49,7 +48,7 @@ public class InputGrammarParserParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "GRAMMAR", "HEADERS", "RULES", "START", "TOKENS", "IGNORE", "IMPORT", 
+			null, "GRAMMAR", "HEADER", "RULES", "START", "TOKENS", "IGNORE", "IMPORT", 
 			"RETURNS", "SEMICOLON", "OPEN_CLOSURE", "CLOSE_CLOSURE", "OPEN_BRACKET", 
 			"CLOSE_BRACKET", "EQLUALLY", "COMMA", "COLON", "OR", "WORD", "CODE", 
 			"REGEXP", "WS"
@@ -217,7 +216,7 @@ public class InputGrammarParserParser extends Parser {
 	public static class HeadersContext extends ParserRuleContext {
 		public ArrayList<String> list;
 		public Token importW;
-		public TerminalNode HEADERS() { return getToken(InputGrammarParserParser.HEADERS, 0); }
+		public TerminalNode HEADER() { return getToken(InputGrammarParserParser.HEADER, 0); }
 		public TerminalNode OPEN_CLOSURE() { return getToken(InputGrammarParserParser.OPEN_CLOSURE, 0); }
 		public TerminalNode CLOSE_CLOSURE() { return getToken(InputGrammarParserParser.CLOSE_CLOSURE, 0); }
 		public List<TerminalNode> IMPORT() { return getTokens(InputGrammarParserParser.IMPORT); }
@@ -252,11 +251,11 @@ public class InputGrammarParserParser extends Parser {
 				 ((HeadersContext)_localctx).list =  new ArrayList<String>(); 
 				}
 				break;
-			case HEADERS:
+			case HEADER:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(38);
-				match(HEADERS);
+				match(HEADER);
 				 ArrayList<String> listRes = new ArrayList<>(); 
 				setState(40);
 				match(OPEN_CLOSURE);
@@ -281,7 +280,7 @@ public class InputGrammarParserParser extends Parser {
 				}
 				setState(50);
 				match(CLOSE_CLOSURE);
-				 ((HeadersContext)_localctx).list = listRes;
+				 ((HeadersContext)_localctx).list =  listRes; 
 				}
 				break;
 			default:
@@ -737,7 +736,7 @@ public class InputGrammarParserParser extends Parser {
 				{
 				setState(134);
 				((StepContext)_localctx).c = match(CODE);
-				 ((StepContext)_localctx).stepq =  new CodeStep(((StepContext)_localctx).c.getText());
+				 ((StepContext)_localctx).stepq =  new CodeStep(((StepContext)_localctx).c.getText()); 
 				}
 				break;
 			case 2:
@@ -745,7 +744,7 @@ public class InputGrammarParserParser extends Parser {
 				{
 				setState(136);
 				((StepContext)_localctx).w1 = match(WORD);
-				 ((StepContext)_localctx).stepq =  new RuleTermStep("", ((StepContext)_localctx).w1.getText());
+				 ((StepContext)_localctx).stepq =  new RuleTermStep("", ((StepContext)_localctx).w1.getText()); 
 				}
 				break;
 			case 3:

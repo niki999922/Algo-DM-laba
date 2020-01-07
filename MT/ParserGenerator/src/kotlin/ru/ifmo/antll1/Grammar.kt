@@ -2,7 +2,7 @@ package ru.ifmo.antll1
 
 class Grammar {
     public val headers = mutableListOf<String>()
-    public val tokens = mutableListOf<Token>()
+    public val tokens = mutableListOf<TokenQ>()
     public val rules = mutableListOf<Rule>()
     public val ignore = mutableListOf<Ignore>()
 

@@ -1,7 +1,7 @@
 token literal names:
 null
 'grammar'
-'headers'
+'header'
 'rules'
 'start'
 'tokens'
@@ -25,7 +25,7 @@ null
 token symbolic names:
 null
 GRAMMAR
-HEADERS
+HEADER
 RULES
 START
 TOKENS

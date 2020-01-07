@@ -16,10 +16,10 @@ dependencies {
 }
 
 sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
-    main.resources.srcDirs += 'src/main/resources'
-    test.java.srcDirs += 'src/main/kotlin'
-    test.resources.srcDirs += 'src/main/resources'
+    main.java.srcDirs += 'src/kotlin'
+    main.resources.srcDirs += 'src/resources'
+    test.java.srcDirs += 'src/kotlin'
+    test.resources.srcDirs += 'src/resources'
 }
 
 compileKotlin {

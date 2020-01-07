@@ -1,7 +1,8 @@
 package ru.ifmo
 
 import ru.ifmo.parser.expression.ParserMathExpression
-fun main() {
+
+fun mainQ() {
     val parser = ParserMathExpression()
     var flag = true
     var thread = Thread {
