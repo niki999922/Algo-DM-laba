@@ -1,0 +1,11 @@
+WORD=1
+LB=2
+RB=3
+PLUS=4
+TERM=5
+WS=6
+NUMBER=7
+'('=2
+')'=3
+'+'=4
+'lalala'=5

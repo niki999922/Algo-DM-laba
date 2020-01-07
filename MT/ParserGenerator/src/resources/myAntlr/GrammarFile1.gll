@@ -1,0 +1,38 @@
+grammar GrammarFile1;
+
+headers {
+    import java.util.LinkedList;
+    import java.util.ArrayList;
+    import java.util.Collections;
+}
+
+start = StartRule;
+
+rules {
+    StartRule() returns res : String
+    : p=P() rString=R() {res = rString;}
+    ;
+
+    P() returns val : Integer
+    : TOKEN1 t2=TOKEN2 ruler=R(t2, '0') {val = 7;}
+    | TOKEN1 {println("token 1");} TOKEN2 {println("token 1"); val = 1;}
+    ;
+
+    R(acc : Integer, acc2 : Integer) returns val : Integer
+    : { val = acc; }  // ε-правило
+    | TOKEN3 {val = 13;}
+    ;
+}
+
+
+tokens {
+    WS     = "[ \t\n\r]+";
+    WS2    = "[ \t\n\r]+";
+    TOKEN1 = "[1-9][0-9]*";
+    TOKEN2 = "[+]";
+    TOKEN3 = "[-]";
+}
+
+ignore {
+    WS, WS2;
+}
