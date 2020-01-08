@@ -1,4 +1,8 @@
-package ru.ifmo.antll1
+package ru.ifmo.antll1.entities
+
+import ru.ifmo.antll1.entities.Condition
+import ru.ifmo.antll1.entities.Parameter
+import ru.ifmo.antll1.entities.ReturnField
 
 data class Rule(val name: String) {
     val parameters = mutableListOf<Parameter>()

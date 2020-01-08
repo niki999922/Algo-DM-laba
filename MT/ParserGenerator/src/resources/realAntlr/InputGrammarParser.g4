@@ -4,14 +4,14 @@ grammar InputGrammarParser;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
-import ru.ifmo.antll1.*;
+import ru.ifmo.antll1.entities.*;
 }
 
 grammarFile returns [Grammar grammar]
     : gn=grammarName h=headers sr=startRule r=rulesQ t=tokensss ig=ignoreTokens
       { $grammar = new Grammar();
       $grammar.grammarName = $gn.name;
-      $grammar.getHeaders().addAll($h.list);
+      $grammar.headers = $h.code;
       $grammar.startRule = $sr.name;
       $grammar.getRules().addAll($r.list);
       $grammar.getTokens().addAll($t.list);
@@ -22,9 +22,9 @@ grammarName returns [String name]
     : GRAMMAR w2=WORD { $name = $w2.getText(); } SEMICOLON
     ;
 
-headers returns [ArrayList<String> list]
-    : { $list = new ArrayList<String>(); }
-    | HEADER { ArrayList<String> listRes = new ArrayList<>(); } OPEN_CLOSURE (IMPORT importW=WORD { listRes.add($importW.getText()); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
+headers returns [CodeStep code]
+    : { $code = new CodeStep(""); }
+    | HEADER codet=CODE { $code = new CodeStep($codet.getText()); }
     ;
 
 startRule returns [String name]
@@ -33,11 +33,12 @@ startRule returns [String name]
 
 rulesQ returns [ArrayList<Rule> list]
     : { $list = new ArrayList<Rule>(); }
-    | RULES { ArrayList<Rule> listRes = new ArrayList<>(); } OPEN_CLOSURE (r=ruleQ { listRes.add($r.ruleq); })* CLOSE_CLOSURE { $list = listRes; }
+    | RULES { ArrayList<Rule> listRes = new ArrayList<>(); } OPEN_STUPID_BRACKET (r=ruleQ { listRes.add($r.ruleq); })* CLOSE_STUPID_BRACKET { $list = listRes; }
     ;
 
 ruleQ returns [Rule ruleq]
     : w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET RETURNS ret=returnValue { $ruleq.getParameters().addAll($par.list); $ruleq.returnType = $ret.returnType; } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
+    | w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET { $ruleq.getParameters().addAll($par.list); } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
     ;
 
 parameters returns [ArrayList<Parameter> list]
@@ -64,26 +65,28 @@ step returns [Step stepq]
 
 tokensss returns [ArrayList<TokenQ> list]
     : { $list = new ArrayList<TokenQ>(); }
-    | TOKENS { ArrayList<TokenQ> listRes = new ArrayList<>(); } OPEN_CLOSURE (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new TokenQ($tokenName.getText(), $regexp.getText())); } SEMICOLON)* CLOSE_CLOSURE { $list = listRes; }
+    | TOKENS { ArrayList<TokenQ> listRes = new ArrayList<>(); } OPEN_STUPID_BRACKET (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new TokenQ($tokenName.getText(), $regexp.getText())); } SEMICOLON)* CLOSE_STUPID_BRACKET { $list = listRes; }
     ;
 
 ignoreTokens returns [ArrayList<Ignore> list]
     : { $list = new ArrayList<Ignore>(); }
-    | IGNORE { ArrayList<Ignore> listRes = new ArrayList<>(); } OPEN_CLOSURE (w1=WORD { listRes.add(new Ignore($w1.getText())); } (COMMA w2=WORD { listRes.add(new Ignore($w2.getText())); })* SEMICOLON )? CLOSE_CLOSURE { $list = listRes; }
+    | IGNORE { ArrayList<Ignore> listRes = new ArrayList<>(); } OPEN_STUPID_BRACKET (w1=WORD { listRes.add(new Ignore($w1.getText())); } (COMMA w2=WORD { listRes.add(new Ignore($w2.getText())); })* SEMICOLON )? CLOSE_STUPID_BRACKET { $list = listRes; }
     ;
 
 GRAMMAR: 'grammar';
-HEADER: 'header';
+HEADER : 'header' ;
 RULES  : 'rules'  ;
 START  : 'start'  ;
 TOKENS : 'tokens' ;
 IGNORE : 'ignore' ;
 IMPORT : 'import' ;
-RETURNS: 'returns' ;
+RETURNS: 'returns';
 
 SEMICOLON    : ';';
 OPEN_CLOSURE : '{';
 CLOSE_CLOSURE: '}';
+OPEN_STUPID_BRACKET: '[';
+CLOSE_STUPID_BRACKET: ']';
 OPEN_BRACKET : '(';
 CLOSE_BRACKET: ')';
 EQLUALLY     : '=';
@@ -91,7 +94,11 @@ COMMA        : ',';
 COLON        : ':';
 OR           : '|';
 
-WORD  : [a-zA-Z]+;
+//WORD  : [a-zA-Z]+              ;
+WORD  : [a-zA-z][a-zA-z0-9_]*  ;
 CODE  : '{' (~[{}]+ CODE?)* '}';
-REGEXP: '"'(~["])+'"';
-WS    : [ \t\r\n]+ -> skip;
+REGEXP: '"'(~["])+'"'          ;
+
+WS          : [ \t\r\n]+    -> skip;
+COMMENT     : '/*' .*? '*/' -> skip;
+LINE_COMMENT: '//' ~[\r\n]* -> skip;

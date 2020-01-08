@@ -1,4 +1,4 @@
-grammar GrammarFile1;
+grammar GrammarFile;
 
 header {
     import java.util.LinkedList;
@@ -8,31 +8,32 @@ header {
 
 start = StartRule;
 
-rules {
+rules [
     StartRule() returns res : String
     : p=P() rString=R() {res = rString;}
+    | {}
     ;
 
     P() returns val : Integer
-    : TOKEN1 t2=TOKEN2 ruler=R(t2, '0') {val = 7;}
+    : TOKEN1 t2=TOKEN2 {var l = 0} ruler=R(t2, l) {val = 7;} //non use non-variable parameters
     | TOKEN1 {println("token 1");} TOKEN2 {println("token 1"); val = 1;}
     ;
 
     R(acc : Integer, acc2 : Integer) returns val : Integer
-    : { val = acc; }  // ε-правило
+    : { val = acc; }  // ε-правило или пустой блок
     | TOKEN3 {val = 13;}
     ;
-}
+]
 
 
-tokens {
+tokens [
     WS     = "[ \t\n\r]+";
     WS2    = "[ \t\n\r]+";
     TOKEN1 = "[1-9][0-9]*";
     TOKEN2 = "[+]";
     TOKEN3 = "[-]";
-}
+]
 
-ignore {
+ignore [
     WS, WS2;
-}
+]

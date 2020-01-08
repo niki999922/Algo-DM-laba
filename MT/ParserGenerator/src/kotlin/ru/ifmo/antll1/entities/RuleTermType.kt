@@ -1,4 +1,4 @@
-package ru.ifmo.antll1
+package ru.ifmo.antll1.entities
 
 enum class RuleTermType {
     TERMINAL,

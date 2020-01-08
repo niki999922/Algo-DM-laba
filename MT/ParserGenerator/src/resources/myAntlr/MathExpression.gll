@@ -1,0 +1,42 @@
+grammar MathExpression;
+
+start = E;
+
+rules [
+    E()
+    : T() E1()
+    ;
+
+    E1()
+    : PLUS E1()
+    | {}
+    ;
+
+    T()
+    : F() T1()
+    ;
+
+    T1()
+    : MUL F() T1()
+    | {}
+    ;
+
+    F()
+    : NUMBER
+    | OP_B E() CL_B
+    ;
+]
+
+
+tokens [
+    WS     = "[ \t\n\r]+";
+    NUMBER = "[0-9]*";
+    PLUS   = "[+]";
+    MUL    = "[*]";
+    OP_B   = "[(]";
+    CL_B   = "[)]";
+]
+
+ignore [
+    WS;
+]

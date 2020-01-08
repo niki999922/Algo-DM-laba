@@ -5,8 +5,8 @@ package ru.ifmo
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CharStreams.fromFileName
 import org.antlr.v4.runtime.CommonTokenStream
-import ru.ifmo.antlr.InputGrammarParserLexer
-import ru.ifmo.antlr.InputGrammarParserParser
+import ru.ifmo.antll1.grammar.parser.InputGrammarParserLexer
+import ru.ifmo.antll1.grammar.parser.InputGrammarParserParser
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -17,6 +17,7 @@ fun main() {
 //    val fileName = "fileName"
 //    val cs: CharStream = fromFileName("src/main/resources/pascal/Hello2.pas")
     val cs: CharStream = fromFileName("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/myAntlr/GrammarFile1.gll")
+//    val cs: CharStream = fromFileName("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/myAntlr/ts.gll")
     val lexer2 = InputGrammarParserLexer(cs)
     val tokenStream2 = CommonTokenStream(lexer2)
     val parser2 = InputGrammarParserParser(tokenStream2)
