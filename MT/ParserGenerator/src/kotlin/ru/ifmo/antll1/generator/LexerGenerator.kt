@@ -7,9 +7,11 @@ import java.util.stream.Collectors
 
 class LexerGenerator(
     private val packageName: String,
-    private val grammarName: String
+    private val grammarName: String,
+    private val listTokens: List<TokenQ>,
+    private val ignore : List<Ignore>
 ) {
-    fun build(file: File, listTokens: List<TokenQ>, ignore : List<Ignore>) {
+    fun build(file: File) {
         val lexerFolder = file.resolve(packageName.split(".").stream().collect(Collectors.joining("/")))
         lexerFolder.mkdirs()
         buildLexerInterface(lexerFolder)
@@ -144,10 +146,10 @@ class LexerGenerator(
 }
 
 fun main() {
-    val generator =  LexerGenerator("ru.ifmo.antll1.generator.lexer","Test___")
-    generator.build(
-        File("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/kotlin"),
+    val generator =  LexerGenerator(
+        "ru.ifmo.antll1.generator.lexer","Test___",
         listOf(TokenQ("MINUS","[-]"),TokenQ("PLUS","[+]"),TokenQ("IGNOR","[ ]+")),
         listOf(Ignore("IGNOR"))
     )
+    generator.build(File("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/kotlin"))
 }
