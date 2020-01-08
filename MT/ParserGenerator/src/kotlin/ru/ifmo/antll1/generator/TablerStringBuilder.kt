@@ -8,7 +8,7 @@ class TablerStringBuilder(private var content: String = "", private val delimite
 
     fun add(tabs : Int, str: String): TablerStringBuilder {
         for (i in 0 until tabs) {
-            this.plus(TAB)
+            content += TAB
         }
         content += str + delimiter
         return this
