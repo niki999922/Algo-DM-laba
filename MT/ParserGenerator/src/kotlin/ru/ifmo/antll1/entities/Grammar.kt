@@ -15,9 +15,7 @@ class Grammar {
 
 }
 
-
-
-fun main() {
+fun generateOwnRules(): List<Rule> {
     val rules = mutableListOf<Rule>()
     val e = Rule("E")
     var c =Condition()
@@ -78,4 +76,11 @@ fun main() {
 
 
     rules.add(Rule("E"))
+
+    return rules
+}
+
+fun main() {
+    val rules = generateOwnRules()
+
 }
