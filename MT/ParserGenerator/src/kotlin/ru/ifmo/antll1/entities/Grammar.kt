@@ -17,6 +17,7 @@ class Grammar {
 
 }
 
+
 fun generateOwnRules(): List<Rule> {
     val rules = LinkedList<Rule>()
     val e = Rule("E")
@@ -78,8 +79,69 @@ fun generateOwnRules(): List<Rule> {
     return rules
 }
 
-fun createTable(rules: List<Rule>, list: List<String>): Table {
-    val table = Table(list)
+fun generateOwnRules2(): List<Rule> {
+    val rules = LinkedList<Rule>()
+    val e = Rule("E")
+    var c = Condition()
+    c.steps.add(RuleTermStep("r", "T"))
+    c.steps.add(CodeStep("code code 1"))
+    c.steps.add(RuleTermStep("", "E1"))
+    c.steps.add(CodeStep("code code 2"))
+    e.conditions.add(c)
+    rules.add(e)
+
+    val e1 = Rule("E1")
+    c = Condition()
+    c.steps.add(RuleTermStep("", "PLUS"))
+    c.steps.add(RuleTermStep("", "T1"))
+    c.steps.add(RuleTermStep("", "E1"))
+    c.steps.add(RuleTermStep("", "F"))
+    e1.conditions.add(c)
+
+    c = Condition()
+    c.steps.add(CodeStep(""))
+    e1.conditions.add(c)
+    rules.add(e1)
+
+    val t = Rule("T")
+    c = Condition()
+    c.steps.add(RuleTermStep("", "F"))
+    c.steps.add(RuleTermStep("p", "T1"))
+    c.steps.add(CodeStep("code code 4"))
+    t.conditions.add(c)
+    rules.add(t)
+
+
+    val t1 = Rule("T1")
+    c = Condition()
+    c.steps.add(RuleTermStep("", "MUL"))
+    c.steps.add(RuleTermStep("", "F"))
+    c.steps.add(RuleTermStep("", "T1"))
+    t1.conditions.add(c)
+
+    c = Condition()
+    c.steps.add(CodeStep(""))
+    t1.conditions.add(c)
+    rules.add(t1)
+
+
+    val f = Rule("F")
+    c = Condition()
+    c.steps.add(RuleTermStep("", "OP_B"))
+    c.steps.add(RuleTermStep("", "E"))
+    c.steps.add(RuleTermStep("", "CL_B"))
+    f.conditions.add(c)
+
+    c = Condition()
+    c.steps.add(RuleTermStep("","NUM"))
+    f.conditions.add(c)
+    rules.add(f)
+
+    return rules
+}
+
+fun createTable(rules: List<Rule>, list: List<String>, startRule: String): Table {
+    val table = Table(list, startRule)
     rules.forEach { rule ->
         val fftable = FFTable()
         table.rules[rule.name] = fftable
@@ -101,8 +163,9 @@ fun createTable(rules: List<Rule>, list: List<String>): Table {
 fun main() {
     val rules = generateOwnRules()
     val tokens = listOf("PLUS", "MUL", "NUM", "OP_B", "CL_B", "EPS") //need add EPS
-    val table = createTable(rules, tokens)
+    val table = createTable(rules, tokens, "E")
     table.buildFirst()
+    table.buildFollow()
     println("")
 
 }
