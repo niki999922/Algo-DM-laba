@@ -32,5 +32,7 @@ class Table(tokens: List<String>) {
         }
     }
 
-    fun buildFollow
+    fun buildFollow() {
+
+    }
 }
