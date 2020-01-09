@@ -95,7 +95,7 @@ fun generateOwnRules2(): List<Rule> {
     c.steps.add(RuleTermStep("", "PLUS"))
     c.steps.add(RuleTermStep("", "T1"))
     c.steps.add(RuleTermStep("", "E1"))
-    c.steps.add(RuleTermStep("", "F"))
+    c.steps.add(RuleTermStep("", "E1"))
     e1.conditions.add(c)
 
     c = Condition()
@@ -161,7 +161,7 @@ fun createTable(rules: List<Rule>, list: List<String>, startRule: String): Table
 }
 
 fun main() {
-    val rules = generateOwnRules()
+    val rules = generateOwnRules2()
     val tokens = listOf("PLUS", "MUL", "NUM", "OP_B", "CL_B", "EPS") //need add EPS
     val table = createTable(rules, tokens, "E")
     table.buildFirst()
