@@ -15,6 +15,9 @@ class Grammar {
     lateinit var startRule: String
     lateinit var grammarName: String
 
+    fun build(,packageName: String = "") {
+
+    }
 }
 
 
@@ -161,6 +164,7 @@ fun createTable(rules: List<Rule>, list: List<String>, startRule: String): Table
 }
 
 fun main() {
+
     val rules = generateOwnRules2()
     val tokens = listOf("PLUS", "MUL", "NUM", "OP_B", "CL_B", "EPS") //need add EPS
     val table = createTable(rules, tokens, "E")

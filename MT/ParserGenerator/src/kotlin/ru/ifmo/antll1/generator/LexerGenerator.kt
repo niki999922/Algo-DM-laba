@@ -40,8 +40,8 @@ class LexerGenerator(
         lexerInterfaceFile.createNewFile()
 
         val textBuilder = TablerStringBuilder(delimiter = "\n")
+        if (!packageName.isBlank()) textBuilder.add(0, "package $packageName\n")
         textBuilder
-            .add(0, "package $packageName\n")
             .add(0, "interface Lexer {")
             .add(1, "fun next(): Token")
             .add(1, "fun token(): Token")
@@ -58,7 +58,7 @@ class LexerGenerator(
         lexerInterfaceImplFile.createNewFile()
 
         val textBuilder = TablerStringBuilder(delimiter = "\n")
-        textBuilder.add(0, "package $packageName\n")
+        if (!packageName.isBlank()) textBuilder.add(0, "package $packageName\n")
 
         //don't do this never!
         File("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/kotlin/ru/ifmo/antll1/generator/lexer/abstractLexer").forEachLine { textBuilder.add(0, it) }
@@ -73,7 +73,7 @@ class LexerGenerator(
         lexerInterfaceImplFile.createNewFile()
 
         val textBuilder = TablerStringBuilder(delimiter = "\n")
-        textBuilder.add(0, "package $packageName\n")
+        if (!packageName.isBlank()) textBuilder.add(0, "package $packageName\n")
         textBuilder.add(0, "import java.util.regex.Pattern\n")
         textBuilder.add(0, "class ${grammarName}LexerImpl(input: String) : AbstractLexer(input) {")
         textBuilder.add(1, "val input_tokens = mutableListOf<Pair<Token, Pattern>>()\n")
@@ -132,7 +132,7 @@ class LexerGenerator(
         tokenFile.createNewFile()
 
         val textBuilder = TablerStringBuilder(delimiter = "\n")
-        textBuilder.add(0, "package $packageName\n")
+        if (!packageName.isBlank()) textBuilder.add(0, "package $packageName\n")
         textBuilder.add(0, "enum class Token(val title: String) {")
         listTokens.forEach { token ->
             textBuilder.add(1, "${token.name}(\"${token.regexp}\"),")
