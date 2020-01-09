@@ -93,7 +93,6 @@ fun createTable(rules: List<Rule>, list: List<String>): Table {
                 }
             }
             fftable.conditions.add(lineT)
-            println(fftable.conditions.toString())
         }
     }
     return table
