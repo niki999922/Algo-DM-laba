@@ -3,6 +3,10 @@ package ru.ifmo.antll1.entities
 import ru.ifmo.antll1.entities.table.FFTable
 import ru.ifmo.antll1.entities.table.LineTable
 import ru.ifmo.antll1.entities.table.Table
+import ru.ifmo.antll1.generator.LexerGenerator
+import ru.ifmo.antll1.generator.ParserGenerator
+import java.lang.Exception
+import java.nio.file.Path
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -15,8 +19,20 @@ class Grammar {
     lateinit var startRule: String
     lateinit var grammarName: String
 
-    fun build(,packageName: String = "") {
-
+    /**
+     * @param path location for generated files
+     * @param packageName package generated classes
+     */
+    fun build(path: Path, packageName: String = "") {
+        val lexerBuilder = LexerGenerator(packageName, grammarName, tokens, ignore)
+        val parserBuilder = ParserGenerator(packageName, grammarName, rules, tokens, ignore, startRule, headers)
+        try{
+            lexerBuilder.build(path.toFile())
+            parserBuilder.build(path.toFile())
+        } catch (exception : Exception) {
+            println("Generating was occurred exception: ${exception.message}")
+            println(exception.stackTrace)
+        }
     }
 }
 

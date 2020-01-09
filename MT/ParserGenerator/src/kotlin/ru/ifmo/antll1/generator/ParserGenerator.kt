@@ -13,7 +13,8 @@ class ParserGenerator(
     private val rules: List<Rule>,
     private val tokensQ: List<TokenQ>,
     private val ignore: List<Ignore>,
-    private val startRule: String
+    private val startRule: String,
+    private val headers: CodeStep
 
 ) {
     private lateinit var table:Table
