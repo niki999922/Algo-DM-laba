@@ -4,7 +4,7 @@ package ru.ifmo.antll1.grammar.parser;
 import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Collections;
-import ru.ifmo.antll1.*;
+import ru.ifmo.antll1.entities.*;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

@@ -38,7 +38,7 @@ rulesQ returns [ArrayList<Rule> list]
 
 ruleQ returns [Rule ruleq]
     : w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET RETURNS ret=returnValue { $ruleq.getParameters().addAll($par.list); $ruleq.returnType = $ret.returnType; } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
-    | w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET { $ruleq.getParameters().addAll($par.list); } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
+    | w1=WORD {$ruleq = new Rule($w1.getText());} OPEN_BRACKET par=parameters CLOSE_BRACKET { $ruleq.getParameters().addAll($par.list); $ruleq.returnType = new ReturnField("none", "none", ""); } COLON (c1=condition { $ruleq.getConditions().add($c1.cond); } (OR c2=condition { $ruleq.getConditions().add($c2.cond); })* )? SEMICOLON
     ;
 
 parameters returns [ArrayList<Parameter> list]
@@ -47,7 +47,8 @@ parameters returns [ArrayList<Parameter> list]
     ;
 
 returnValue returns [ReturnField returnType]
-    : var1=WORD COLON type1=WORD { $returnType = new ReturnField($var1.getText(), $type1.getText()); }
+    : var1=WORD COLON type1=WORD { $returnType = new ReturnField($var1.getText(), $type1.getText(), ""); }
+    | var1=WORD COLON type1=WORD codeInit=CODE  { $returnType = new ReturnField($var1.getText(), $type1.getText(), $codeInit.getText().substring(1,$codeInit.getText().length() - 1)); }
     ;
 
 
@@ -57,15 +58,15 @@ condition returns [Condition cond]
 
 step returns [Step stepq]
     : c=CODE { $stepq = new CodeStep($c.getText()); }
-    | w1=WORD { $stepq = new RuleTermStep("", $w1.getText()); }
+    | w1=WORD { $stepq = new RuleTermStep($w1.getText().toLowerCase(), $w1.getText()); }
     | w1=WORD EQLUALLY w2=WORD { $stepq = new RuleTermStep($w1.getText(), $w2.getText()); }
     | w1=WORD EQLUALLY w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3.getText(); } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4.getText(); })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w1.getText(), tmp_str); }
-    | w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3.getText(); } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4.getText(); })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep("", tmp_str); }
+    | w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=WORD { tmp_str = tmp_str + $w3.getText(); } (COMMA w4=WORD { tmp_str = tmp_str + ", " + $w4.getText(); })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w2.getText().toLowerCase(), tmp_str); }
     ;
 
 tokensss returns [ArrayList<TokenQ> list]
     : { $list = new ArrayList<TokenQ>(); }
-    | TOKENS { ArrayList<TokenQ> listRes = new ArrayList<>(); } OPEN_STUPID_BRACKET (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new TokenQ($tokenName.getText(), $regexp.getText())); } SEMICOLON)* CLOSE_STUPID_BRACKET { $list = listRes; }
+    | TOKENS { ArrayList<TokenQ> listRes = new ArrayList<>(); } OPEN_STUPID_BRACKET (tokenName=WORD EQLUALLY regexp=REGEXP { listRes.add(new TokenQ($tokenName.getText(), $regexp.getText().substring(1, $regexp.getText().length() - 1))); } SEMICOLON)* CLOSE_STUPID_BRACKET { $list = listRes; }
     ;
 
 ignoreTokens returns [ArrayList<Ignore> list]
@@ -94,7 +95,6 @@ COMMA        : ',';
 COLON        : ':';
 OR           : '|';
 
-//WORD  : [a-zA-Z]+              ;
 WORD  : [a-zA-z][a-zA-z0-9_]*  ;
 CODE  : '{' (~[{}]+ CODE?)* '}';
 REGEXP: '"'(~["])+'"'          ;

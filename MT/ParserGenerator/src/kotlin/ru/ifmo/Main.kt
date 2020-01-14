@@ -5,8 +5,9 @@ import java.nio.file.Paths
 
 fun main() {
     Antll1ParserGenerator.generate(
-        Paths.get("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/myAntlr/GrammarFile1.gll"),
+        Paths.get("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/myAntlr/MathExpression.gll"),
+//        Paths.get("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/resources/myAntlr/GrammarFile1.gll"),
         Paths.get("/Users/nikita/Algo-DM-laba/MT/ParserGenerator/src/kotlin"),
-        "ru.ifmo.antll1.generator.lexer"
+        "ru.ifmo.antll1.generator.testing"
     )
 }
