@@ -837,7 +837,7 @@ public class InputGrammarParserParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					 if (((StepContext)_localctx).w3.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText().substring(1);} 
+					 if (((StepContext)_localctx).w3.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText().substring(1, ((StepContext)_localctx).w3.getText().length() - 1);} 
 					setState(173);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
@@ -857,7 +857,7 @@ public class InputGrammarParserParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						 if (((StepContext)_localctx).w4.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText().substring(1);} 
+						 if (((StepContext)_localctx).w4.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText().substring(1, ((StepContext)_localctx).w4.getText().length() - 1);} 
 						}
 						}
 						setState(175);
@@ -896,7 +896,7 @@ public class InputGrammarParserParser extends Parser {
 						_errHandler.reportMatch(this);
 						consume();
 					}
-					 if (((StepContext)_localctx).w3.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText().substring(1);} 
+					 if (((StepContext)_localctx).w3.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w3.getText().substring(1, ((StepContext)_localctx).w3.getText().length() - 1);} 
 					setState(190);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
@@ -916,7 +916,7 @@ public class InputGrammarParserParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						 if (((StepContext)_localctx).w4.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText().substring(1);} 
+						 if (((StepContext)_localctx).w4.getText().charAt(0) != '$') {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText();} else {tmp_str = tmp_str + ((StepContext)_localctx).w4.getText().substring(1, ((StepContext)_localctx).w4.getText().length() - 1);} 
 						}
 						}
 						setState(192);

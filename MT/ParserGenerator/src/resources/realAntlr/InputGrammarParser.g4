@@ -60,8 +60,8 @@ step returns [Step stepq]
     : c=CODE { $stepq = new CodeStep($c.getText()); }
     | w1=WORD { $stepq = new RuleTermStep($w1.getText().toLowerCase(), $w1.getText()); }
     | w1=WORD EQLUALLY w2=WORD { $stepq = new RuleTermStep($w1.getText(), $w2.getText()); }
-    | w1=WORD EQLUALLY w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=(WORDARGFUN | NUMBER | WORD) { if ($w3.getText().charAt(0) != '$') {tmp_str = tmp_str + $w3.getText();} else {tmp_str = tmp_str + $w3.getText().substring(1);} } (COMMA w4=(WORDARGFUN | NUMBER | WORD)  { if ($w4.getText().charAt(0) != '$') {tmp_str = tmp_str + $w4.getText();} else {tmp_str = tmp_str + $w4.getText().substring(1);} })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w1.getText(), tmp_str); }
-    | w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=(WORDARGFUN | NUMBER | WORD)   { if ($w3.getText().charAt(0) != '$') {tmp_str = tmp_str + $w3.getText();} else {tmp_str = tmp_str + $w3.getText().substring(1);} } (COMMA w4=(WORDARGFUN | NUMBER | WORD)  { if ($w4.getText().charAt(0) != '$') {tmp_str = tmp_str + $w4.getText();} else {tmp_str = tmp_str + $w4.getText().substring(1);} })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w2.getText().toLowerCase(), tmp_str); }
+    | w1=WORD EQLUALLY w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=(WORDARGFUN | NUMBER | WORD) { if ($w3.getText().charAt(0) != '$') {tmp_str = tmp_str + $w3.getText();} else {tmp_str = tmp_str + $w3.getText().substring(1, $w3.getText().length() - 1);} } (COMMA w4=(WORDARGFUN | NUMBER | WORD)  { if ($w4.getText().charAt(0) != '$') {tmp_str = tmp_str + $w4.getText();} else {tmp_str = tmp_str + $w4.getText().substring(1, $w4.getText().length() - 1);} })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w1.getText(), tmp_str); }
+    | w2=WORD { String tmp_str = $w2.getText() + "("; } OPEN_BRACKET (w3=(WORDARGFUN | NUMBER | WORD)   { if ($w3.getText().charAt(0) != '$') {tmp_str = tmp_str + $w3.getText();} else {tmp_str = tmp_str + $w3.getText().substring(1, $w3.getText().length() - 1);} } (COMMA w4=(WORDARGFUN | NUMBER | WORD)  { if ($w4.getText().charAt(0) != '$') {tmp_str = tmp_str + $w4.getText();} else {tmp_str = tmp_str + $w4.getText().substring(1, $w4.getText().length() - 1);} })*)? CLOSE_BRACKET { tmp_str = tmp_str + ")"; $stepq = new RuleTermStep($w2.getText().toLowerCase(), tmp_str); }
     ;
 
 tokensss returns [ArrayList<TokenQ> list]
@@ -96,7 +96,7 @@ COLON        : ':';
 OR           : '|';
 
 //TEXTWITHDOT  : ([a-zA-Z0-9]+('.'|'('')')?)+  ;
-WORDARGFUN : '$'[a-zA-Z][a-zA-Z0-9_.]*('('(~[()]+ WORDARGFUN?)*')')? ;
+WORDARGFUN : '$'(~[{}]+ WORDARGFUN?)* '$';
 WORD  : [a-zA-Z][a-zA-Z0-9_]*  ;
 
 //BOOMBRAIN1  : [a-zA-Z0-9.]+ ;

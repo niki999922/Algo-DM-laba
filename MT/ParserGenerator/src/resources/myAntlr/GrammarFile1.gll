@@ -10,7 +10,7 @@ start = StartRule;
 
 rules [
     StartRule() returns result : String {= ""}
-    : p=P() rString=R($p.value, 2) {result = rString.value.toString();} //if need func so $p.func(a, b , c)
+    : p=P() rString=R($p.value$, 2) {result = rString.value.toString();} //if need func so $p.func(a, b , c)
     | {}
     ;
 

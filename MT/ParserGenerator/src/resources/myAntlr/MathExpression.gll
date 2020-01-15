@@ -1,66 +1,75 @@
 grammar MathExpression;
 
-start = expr;
+start = S;
 
 rules [
+//     * Grammar:
+//     * S-> eps
+//     * S -> H
+//     * H -> EH1
+//     * H1 -> <<EH1
+//     * H1 -> >>EH1
+//     * H1 -> eps
+//     * E -> b(E)E1  //don't use
+//     * E -> TE1
+//     * E1 -> +TE1
+//     * E1 -> -TE1
+//     * E1 -> eps
+//     * T -> FT1
+//     * T1 -> *FT1
+//     * T1 -> eps
+//     * F -> n
+//     * F -> (H)
+
     S() returns res : Int {= 0}
-    :
-    ;
-
-    E() returns res : Int {= 0}
-    : T() E1()
-    ;
-
-    E1()
-    : PLUS E1()
-    | {}
-    ;
-
-    T()
-    : F() T1()
-    ;
-
-    T1()
-    : MUL F() T1()
-    | {}
-    ;
-
-    F()
-    : NUMBER
-    | OP_B E() CL_B
-    ;
-
-
-    expr() returns res : Int {= 0}
-        : t=term() {var v = t.res } exprP(t.res)     { res = exprP.res; }
+        : H() { res = h.res; }
+        | { res = 0; }
         ;
 
-    exprP(i: Int) returns res : Int {= 0}
-        : { res = i; }  // ε-правило
-        | PLUS term() {var r = i + term.res} tmp=exprP(r) { res = tmp.res; }
+    H() returns res: Int {= 0}
+        : E(0) H1($e.res$) { res = h1.res; }
         ;
 
-    term() returns res : Int {= 0}
-        : fact() {var r = fact.res} termP(r)  { res = termP.res; }
+    H1(acc : Int) returns res: Int {= 0}
+        : L_SHIFT E(0) H1($acc shl e.res$) { res = h1.res; }
+        | R_SHIFT E(0) H1($acc shr e.res$) { res = h1.res; }
+        | { res = acc; }
         ;
 
-    termP(i : Int) returns res : Int {= 0}
-        :     { res = i; }
-        | MUL fact expr = termP[i * fact.val]        { res=expr.val; }
+    E(acc : Int) returns res: Int {= 0}
+        : T(0) E1($t.res$) { res = e1.res; }
         ;
-    fact() returns res : Int {= 0}
-        : '(' expr ')'                  { res=expr.val; }
-        | NUM                           { res=Integer.parseInt(NUM.text); }
+
+    E1(acc : Int) returns res: Int {= 0}
+        : PLUS T(0) E1($acc + t.res$) { res = e1.res; }
+        | MINUS T(0) E1($acc - t.res$) { res = e1.res; }
+        | { res = acc; }
+        ;
+
+    T(acc : Int) returns res: Int {= 0}
+        : F(0) T1($f.res$) { res = t1.res; }
+        ;
+
+    T1(acc : Int) returns res: Int {= 0}
+        : MUL F(0) T1($acc * f.res$) { res = t1.res; }
+        | { res = acc; }
+        ;
+
+    F(acc : Int) returns res: Int {= 0}
+        : OP_B H() CL_B { res = h.res; }
+        | NUMBER { res = Integer.parseInt(number.text); }
         ;
 ]
 
 
 tokens [
     WS     = "[ \t\n\r]+";
-    NUMBER = "[0-9]*";
+    NUMBER = "[0-9]+";
     PLUS   = "[+]";
     MINUS  = "[-]";
     MUL    = "[*]";
+    L_SHIFT = "<<";
+    R_SHIFT = ">>";
     OP_B   = "[(]";
     CL_B   = "[)]";
 ]
