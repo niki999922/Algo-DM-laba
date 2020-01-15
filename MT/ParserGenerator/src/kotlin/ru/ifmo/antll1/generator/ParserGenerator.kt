@@ -28,6 +28,7 @@ class ParserGenerator(
         println("Starting generating FOLLOW")
         table.buildFollow()
         termTokens = tokens.toSet()
+
     }
 
     fun build(file: File) {
@@ -64,7 +65,7 @@ class ParserGenerator(
 
 
         rules.forEach { rule ->
-
+            var returnName = rule.returnType.name
             var params = rule.parameters.map { it.name + ": " + it.type }.joinToString(", ")
             textBuilder.add(1, "fun build${rule.name}($params) : ${rule.name}Node {")
             textBuilder.add(2, "var result = ${rule.name}Node(\"${rule.name}\")")
@@ -79,8 +80,7 @@ class ParserGenerator(
                 rule.conditions[i].steps.forEach { step: Step ->
                     if (step.stepType == StepType.CODE) {
                         var code = (step as CodeStep).code
-                        code.substring(1, code.length - 1).split(";").map { it.trim() }
-                            .forEach { textBuilder.add(4, it) }
+                        code.substring(1, code.length - 1).split(";").map { it.trim() }.map { if (it.startsWith(returnName)) "result.$it" else it }.forEach { textBuilder.add(4, it) }
 //                            textBuilder.add(4, code)
                     } else {
                         var ruleTerm = (step as RuleTermStep)
@@ -108,7 +108,7 @@ class ParserGenerator(
                 rule.conditions[rule.conditions.size - 1].steps.forEach { step: Step ->
                     if (step.stepType == StepType.CODE) {
                         var code = (step as CodeStep).code
-                        code.substring(1, code.length - 1).split(";").map { it.trim() }
+                        code.substring(1, code.length - 1).split(";").map { it.trim() }.map { if (it.startsWith(returnName)) "result.$it" else it }
                             .forEach { textBuilder.add(4, it) }
 //                            textBuilder.add(4, code)
                     } else {
@@ -123,7 +123,7 @@ class ParserGenerator(
                 textBuilder.add(3, "}")
             }
             textBuilder.add(3, "else -> {")
-            textBuilder.add(4, "throw Exception(\"Unexpected token E: \${lexer.tokenDescription()}\")")
+            textBuilder.add(4, "throw Exception(\"Unexpected token ${rule.name}: \${lexer.tokenDescription()}\")")
             textBuilder.add(3, "}")
 
             textBuilder.add(2, "}")

@@ -1,9 +1,13 @@
 grammar MathExpression;
 
-start = E;
+start = expr;
 
 rules [
-    E()
+    S() returns res : Int {= 0}
+    :
+    ;
+
+    E() returns res : Int {= 0}
     : T() E1()
     ;
 
@@ -25,6 +29,29 @@ rules [
     : NUMBER
     | OP_B E() CL_B
     ;
+
+
+    expr() returns res : Int {= 0}
+        : t=term() {var v = t.res } exprP(t.res)     { res = exprP.res; }
+        ;
+
+    exprP(i: Int) returns res : Int {= 0}
+        : { res = i; }  // ε-правило
+        | PLUS term() {var r = i + term.res} tmp=exprP(r) { res = tmp.res; }
+        ;
+
+    term() returns res : Int {= 0}
+        : fact() {var r = fact.res} termP(r)  { res = termP.res; }
+        ;
+
+    termP(i : Int) returns res : Int {= 0}
+        :     { res = i; }
+        | MUL fact expr = termP[i * fact.val]        { res=expr.val; }
+        ;
+    fact() returns res : Int {= 0}
+        : '(' expr ')'                  { res=expr.val; }
+        | NUM                           { res=Integer.parseInt(NUM.text); }
+        ;
 ]
 
 
@@ -32,6 +59,7 @@ tokens [
     WS     = "[ \t\n\r]+";
     NUMBER = "[0-9]*";
     PLUS   = "[+]";
+    MINUS  = "[-]";
     MUL    = "[*]";
     OP_B   = "[(]";
     CL_B   = "[)]";

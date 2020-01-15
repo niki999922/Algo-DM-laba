@@ -1,0 +1,58 @@
+grammar PascalLogic;
+
+start = rule_s;
+
+rules [
+    rule_s()
+        : rule_e() rule_s1()
+        ;
+
+    rule_s1()
+        : OR rule_e() rule_s1()
+        | {}
+        ;
+
+    rule_e()
+        : rule_f() rule_e1()
+        ;
+
+    rule_e1()
+        : XOR rule_f() rule_e1()
+        | {}
+        ;
+
+    rule_f()
+        : rule_n() rule_f1()
+        ;
+
+    rule_f1()
+        : AND rule_n() rule_f1()
+        | {}
+        ;
+
+    rule_n()
+        : NOT rule_n()
+        | rule_v()
+        ;
+
+    rule_v()
+        : NAME
+        | OP_B rule_s() CL_B
+        ;
+]
+
+
+tokens [
+    WS     = "[ \t\n\r]+";
+    NAME = "[a-zA-Z]";
+    OR   = "[\\|]";
+    XOR  = "[\\^]";
+    AND    = "[\\&]";
+    NOT   = "[!]";
+    OP_B   = "[(]";
+    CL_B   = "[)]";
+]
+
+ignore [
+    WS;
+]
