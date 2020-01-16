@@ -47,31 +47,43 @@ rules [
         ;
 
     T(acc : Int) returns res: Int {= 0}
-        : F(0) T1($f.res$) { res = t1.res; }
+        : L(0) T1($l.res$) { res = t1.res; }
         ;
 
     T1(acc : Int) returns res: Int {= 0}
-        : MUL F(0) T1($acc * f.res$) { res = t1.res; }
+        : MUL L(0) T1($acc * l.res$) { res = t1.res; }
+        | { res = acc; }
+        ;
+
+    L(acc : Int) returns res: Int {= 0}
+        : F(0) L1($f.res$) { res = l1.res; }
+        ;
+
+    L1(acc : Int) returns res: Int {= 0}
+        : POW F(0) L1($f.res$) { res = Math.pow(acc.toDouble(), l1.res.toDouble()).toInt(); }
         | { res = acc; }
         ;
 
     F(acc : Int) returns res: Int {= 0}
         : OP_B H() CL_B { res = h.res; }
+        | MINUS OP_B H() CL_B { res = -h.res; }
+        | MINUS NUMBER { res = -Integer.parseInt(number.text); }
         | NUMBER { res = Integer.parseInt(number.text); }
         ;
 ]
 
 
 tokens [
-    WS     = "[ \t\n\r]+";
-    NUMBER = "[0-9]+";
-    PLUS   = "[+]";
-    MINUS  = "[-]";
-    MUL    = "[*]";
+    WS      = "[ \t\n\r]+";
+    NUMBER  = "[0-9]+";
+    PLUS    = "[+]";
+    MINUS   = "[-]";
+    POW     = "[*]{2}";
+    MUL     = "[*]";
     L_SHIFT = "<<";
     R_SHIFT = ">>";
-    OP_B   = "[(]";
-    CL_B   = "[)]";
+    OP_B    = "[(]";
+    CL_B    = "[)]";
 ]
 
 ignore [

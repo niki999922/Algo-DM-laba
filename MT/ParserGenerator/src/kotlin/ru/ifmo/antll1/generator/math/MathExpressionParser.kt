@@ -12,7 +12,7 @@ class MathExpressionParser {
     fun buildS() : SNode {
         var result = SNode("S")
         when(lexer.token()) {
-            OP_B, NUMBER -> {
+            OP_B, MINUS, NUMBER -> {
                 var h = buildH()
                 result.children.add(h)
                 result.res = h.res
@@ -31,7 +31,7 @@ class MathExpressionParser {
     fun buildH() : HNode {
         var result = HNode("H")
         when(lexer.token()) {
-            OP_B, NUMBER -> {
+            OP_B, MINUS, NUMBER -> {
                 var e = buildE(0)
                 result.children.add(e)
                 var h1 = buildH1(e.res)
@@ -83,7 +83,7 @@ class MathExpressionParser {
     fun buildE(acc: Int) : ENode {
         var result = ENode("E")
         when(lexer.token()) {
-            OP_B, NUMBER -> {
+            OP_B, MINUS, NUMBER -> {
                 var t = buildT(0)
                 result.children.add(t)
                 var e1 = buildE1(t.res)
@@ -135,10 +135,10 @@ class MathExpressionParser {
     fun buildT(acc: Int) : TNode {
         var result = TNode("T")
         when(lexer.token()) {
-            OP_B, NUMBER -> {
-                var f = buildF(0)
-                result.children.add(f)
-                var t1 = buildT1(f.res)
+            OP_B, MINUS, NUMBER -> {
+                var l = buildL(0)
+                result.children.add(l)
+                var t1 = buildT1(l.res)
                 result.children.add(t1)
                 result.res = t1.res
                 
@@ -156,9 +156,9 @@ class MathExpressionParser {
                 var mul = Node(lexer.context())
                 result.children.add(mul)
                 lexer.next()
-                var f = buildF(0)
-                result.children.add(f)
-                var t1 = buildT1(acc * f.res)
+                var l = buildL(0)
+                result.children.add(l)
+                var t1 = buildT1(acc * l.res)
                 result.children.add(t1)
                 result.res = t1.res
                 
@@ -169,6 +169,47 @@ class MathExpressionParser {
             }
             else -> {
                 throw Exception("Unexpected token T1: ${lexer.tokenDescription()}")
+            }
+        }
+        return result
+    }
+    fun buildL(acc: Int) : LNode {
+        var result = LNode("L")
+        when(lexer.token()) {
+            OP_B, MINUS, NUMBER -> {
+                var f = buildF(0)
+                result.children.add(f)
+                var l1 = buildL1(f.res)
+                result.children.add(l1)
+                result.res = l1.res
+                
+            }
+            else -> {
+                throw Exception("Unexpected token L: ${lexer.tokenDescription()}")
+            }
+        }
+        return result
+    }
+    fun buildL1(acc: Int) : L1Node {
+        var result = L1Node("L1")
+        when(lexer.token()) {
+            POW -> {
+                var pow = Node(lexer.context())
+                result.children.add(pow)
+                lexer.next()
+                var f = buildF(0)
+                result.children.add(f)
+                var l1 = buildL1(f.res)
+                result.children.add(l1)
+                result.res = Math.pow(acc.toDouble(), l1.res.toDouble()).toInt()
+                
+            }
+            MUL, PLUS, MINUS, L_SHIFT, R_SHIFT, END, CL_B -> {
+                result.res = acc
+                
+            }
+            else -> {
+                throw Exception("Unexpected token L1: ${lexer.tokenDescription()}")
             }
         }
         return result
@@ -186,6 +227,31 @@ class MathExpressionParser {
                 result.children.add(cl_b)
                 lexer.next()
                 result.res = h.res
+                
+            }
+            MINUS -> {
+                var minus = Node(lexer.context())
+                result.children.add(minus)
+                lexer.next()
+                var op_b = Node(lexer.context())
+                result.children.add(op_b)
+                lexer.next()
+                var h = buildH()
+                result.children.add(h)
+                var cl_b = Node(lexer.context())
+                result.children.add(cl_b)
+                lexer.next()
+                result.res = -h.res
+                
+            }
+            MINUS -> {
+                var minus = Node(lexer.context())
+                result.children.add(minus)
+                lexer.next()
+                var number = Node(lexer.context())
+                result.children.add(number)
+                lexer.next()
+                result.res = -Integer.parseInt(number.text)
                 
             }
             NUMBER -> {

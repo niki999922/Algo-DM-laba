@@ -32,6 +32,14 @@ class T1Node(text: String) : Node(text) {
     var res: Int = 0
 }
 
+class LNode(text: String) : Node(text) {
+    var res: Int = 0
+}
+
+class L1Node(text: String) : Node(text) {
+    var res: Int = 0
+}
+
 class FNode(text: String) : Node(text) {
     var res: Int = 0
 }

@@ -10,6 +10,7 @@ class MathExpressionLexerImpl(input: String) : AbstractLexer(input) {
         input_tokens.add(Token.NUMBER to Pattern.compile(Token.NUMBER.title))
         input_tokens.add(Token.PLUS to Pattern.compile(Token.PLUS.title))
         input_tokens.add(Token.MINUS to Pattern.compile(Token.MINUS.title))
+        input_tokens.add(Token.POW to Pattern.compile(Token.POW.title))
         input_tokens.add(Token.MUL to Pattern.compile(Token.MUL.title))
         input_tokens.add(Token.L_SHIFT to Pattern.compile(Token.L_SHIFT.title))
         input_tokens.add(Token.R_SHIFT to Pattern.compile(Token.R_SHIFT.title))

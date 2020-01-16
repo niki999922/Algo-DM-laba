@@ -70,4 +70,17 @@ class MathTest {
         var expression = "((((((((((((280+100-((3 << 3) + 17* 8-(13>>2 * 7)-4)+11000-27*48) - 28384)*14  >> 1 >> 1 >> 1 >> 1 >> 1)>>12) + 20<<2<<3>>4<<2<<5>>4+1) * (((13*4*4-2+3*5*4)>>4))* (((13*4*4-2+3*5*4)>>4)))-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1))))))"
         Assertions.assertEquals(36840, (parser.parse(expression) as SNode).res)
     }
+
+    @Test
+    fun test11(){
+        var expression = "2 ** 4"
+        Assertions.assertEquals(16, (parser.parse(expression) as SNode).res)
+    }
+
+    @Test
+    fun test12(){
+        var expression = "2 ** 2 ** 3"
+        Assertions.assertEquals(256, (parser.parse(expression) as SNode).res)
+    }
+
 }

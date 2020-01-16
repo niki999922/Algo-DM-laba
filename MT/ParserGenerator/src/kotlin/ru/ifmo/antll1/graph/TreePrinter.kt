@@ -13,6 +13,8 @@ object MathTreePrinter {
             is E1Node -> {return 0}
             is TNode -> {return 0}
             is T1Node -> {return 0}
+            is LNode -> {return 0}
+            is L1Node -> {return 0}
             is FNode -> {return 0}
         }
         try {
@@ -32,6 +34,8 @@ object MathTreePrinter {
             is E1Node -> {return node.res}
             is TNode -> {return node.res}
             is T1Node -> {return node.res}
+            is LNode -> {return node.res}
+            is L1Node -> {return node.res}
             is FNode -> {return node.res}
         }
         return 0
