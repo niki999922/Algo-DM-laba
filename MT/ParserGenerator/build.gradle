@@ -12,14 +12,19 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    testCompile "org.junit.jupiter:junit-jupiter:5.5.2"
     antlr "org.antlr:antlr4:4.7"
 }
 
 sourceSets {
     main.java.srcDirs += 'src/kotlin'
     main.resources.srcDirs += 'src/resources'
-    test.java.srcDirs += 'src/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
     test.resources.srcDirs += 'src/resources'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 compileKotlin {

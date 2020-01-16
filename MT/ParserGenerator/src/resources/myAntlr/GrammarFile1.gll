@@ -20,13 +20,9 @@ rules [
     ;
 
     R(acc : Int, acc2 : Int) returns value : Int {= 0}
-    : { val = acc; }  // ε-правило или пустой блок
-    | TOKEN3 {value = 13;}
+    : TOKEN3 {value = 13;}
+    | { val = acc; }  // ε-правило или пустой блок
     ;
-
-//    Kek()
-//    : TOKEN3 { value = acc; }  // ε-правило или пустой блок
-//    ;
 
 ]
 

@@ -95,12 +95,8 @@ COMMA        : ',';
 COLON        : ':';
 OR           : '|';
 
-//TEXTWITHDOT  : ([a-zA-Z0-9]+('.'|'('')')?)+  ;
 WORDARGFUN : '$'(~[{}]+ WORDARGFUN?)* '$';
 WORD  : [a-zA-Z][a-zA-Z0-9_]*  ;
-
-//BOOMBRAIN1  : [a-zA-Z0-9.]+ ;
-//BOOMBRAIN2  : [^,]+')'  ;
 NUMBER  : [1-9][0-9]* | '0' ;
 CODE  : '{' (~[{}]+ CODE?)* '}';
 REGEXP: '"'(~["])+'"'          ;

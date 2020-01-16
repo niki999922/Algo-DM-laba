@@ -1,11 +1,12 @@
 package ru.ifmo
 
 import ru.ifmo.antll1.generator.math.MathExpressionParser
+import ru.ifmo.antll1.generator.math.SNode
 import ru.ifmo.antll1.generator.pascal.PascalLogicParser
 import ru.ifmo.antll1.graph.*
 
 fun main() {
-//    pascal()
+    pascal()
     math()
 }
 
@@ -51,9 +52,8 @@ fun math() {
     try {
         thread.start()
         // 0.15 sec
-        val res = parser.parse(
-            "(1<<2)*(3*(7-4)+2)"
-        )
+        val res = parser.parse("((280+100-((3 << 3) + 17* 8-(13>>2 * 7)-4)+11000-27*48) - 28384)*14  >> 1 >> 1 >> 1 >> 1")
+        println("\nanswer = ${(res as SNode).res}")
         MathPainter.draw(res, "TreeMath")
 
     } catch (e: Exception) {
